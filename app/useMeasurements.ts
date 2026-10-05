@@ -1,5 +1,6 @@
 'use client';
 import {useEffect,useMemo,useRef,useState} from 'react';
+import {assetUrl} from '../lib/assets';
 import type {Floor} from '../lib/model';
 import {anchorPoint,computeScene,dimensionsFor,bbox,pointInMulti,toWorld} from '../lib/geometry';
 import type {RouteRequest,RouteResult,RouteInput} from '../lib/routes';
@@ -16,7 +17,7 @@ export function useMeasurements(floor:Floor,selected:string,all:boolean,routeEna
   for(const r of floor.routes||[])if(!r.automatic){const points=r.points.map(a=>anchorPoint(floor,a));if(points.every(p=>p!==null))requests.push({id:r.id,name:r.name,points:points as Point[],target:r.target});}
   pending.current={requestId:seq.current,floorId:floor.id,free:scene.walking,outline:floor.outline as Point[],requests,resolution:dragging?25:10};setRouteStatus(dragging?'25 mm 拖动预估中':'10 mm 路线复核中');
   if(wasDragging.current&&!dragging){worker.current?.terminate();worker.current=null;busy.current=false;}wasDragging.current=dragging;
-  const send=()=>{if(busy.current||!pending.current)return;if(!worker.current){worker.current=new Worker('/route-worker.js',{type:'module'});worker.current.onmessage=e=>{busy.current=false;const r=e.data;if(r.requestId===seq.current){setRoutes(r.results||[]);setRouteStatus(r.error||`${r.resolution} mm 网格${r.coarseOnly?'（范围较大，已降低精度）':' · 路线已更新'}`);}send();};worker.current.onerror=()=>{busy.current=false;setRouteStatus('路线计算暂未完成，请关闭后重试。');worker.current?.terminate();worker.current=null;};}const input=pending.current;pending.current=null;busy.current=true;worker.current.postMessage(input);};send();
+  const send=()=>{if(busy.current||!pending.current)return;if(!worker.current){worker.current=new Worker(assetUrl('route-worker.js'),{type:'module'});worker.current.onmessage=e=>{busy.current=false;const r=e.data;if(r.requestId===seq.current){setRoutes(r.results||[]);setRouteStatus(r.error||`${r.resolution} mm 网格${r.coarseOnly?'（范围较大，已降低精度）':' · 路线已更新'}`);}send();};worker.current.onerror=()=>{busy.current=false;setRouteStatus('路线计算暂未完成，请关闭后重试。');worker.current?.terminate();worker.current=null;};}const input=pending.current;pending.current=null;busy.current=true;worker.current.postMessage(input);};send();
  },[floor,scene,routeEnabled,dragging]);
  return {scene,dimensions,routes,routeStatus};
 }

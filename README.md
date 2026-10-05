@@ -1,34 +1,45 @@
-# 西安的家 · 两层空间工作台
+# 西安的家 · 独立网页版
 
-两层户型编辑器，支持家具、墙体和阳台边界调整，实时尺寸、通道估算、区域面积及设计师文件导出。
+正式入口：https://xiaoxiao430.github.io/xian-home-studio/
 
-网站：https://xian-home-studio.xiaoteng430.chatgpt.site
+这个入口由 GitHub Pages 提供，无需登录，不依赖 OpenAI Sites、ChatGPT、Cloudflare Workers 或外部 CDN。脚本、路由计算线程和字体均由同一站点提供。
 
-## 使用
+## 编辑与保存
 
-- 拖动对象，周边净距实时更新；右侧可改坐标、宽深、角度。
-- 点击“全屋尺寸”展开全层编号，右侧清单对应名称与毫米数值。点击尺寸后可固定、命名；保存的非外尺寸关系可拖动端点。
-- “两点／两对象／两条边”建立测量；“画路线”支持途经点；“圈区域”闭合后计算面积。
-- “通道分析”显示入口到各区域的路线、最窄通行包络和可调目标（默认900 mm）。拖动25 mm网格、松手10 mm复核；接近目标时显示临界。通行包络是保守估算，家具净距是几何尺寸，两者分别显示。
-- 餐岛可切换4／6人及椅子收起／就座。柜门、椅后操作范围按用户填写的真实毫米值计算。
-- DXF为毫米1:1矢量，分层并保留DIMENSION实体；PDF为A3横向，嵌入微软雅黑；SVG和CSV可独立导出。
+- 两层布局、实时尺寸、通道估算、区域面积及 DXF / PDF / SVG / CSV 导出均在浏览器运行。
+- 方案保存在当前浏览器的 localStorage，参考图及说明保存在 IndexedDB。清理浏览器数据会删除本机副本，请定期导出。
+- 跨设备或从旧站迁移：在原入口导出方案 JSON，再在新入口点右上角“导入方案”。新域名无法自动读取旧站的浏览器草稿或私人云端数据。
+- 参考图可在“效果图”页连同平面与说明导出任务文件。静态入口不提供云端同步或自动 AI 生图，也不在浏览器中保存 API 密钥。
+- 通道是网格估算；结构墙和阳台调整仅用于方案比较，施工条件仍需复核。
 
-匿名访客不需要登录，调整保存在当前浏览器，可导出JSON备份。登录后的布局和参考图按认证用户隔离，使用D1/R2保存；访客无法覆盖其他人的云端方案。
+## 本地开发和发布
 
-原图是方案底图，不是结构施工证明。原墙默认疑似／待核实；墙体、门洞关联及阳台改动有结构提示。路线结果不构成规范认证。原图面积、当前计算面积和估算值分别标注。
-
-## 开发与验证
-
-Node.js 22.13+，首次运行 `npm run install:ci`；`npm run dev` 启动本地预览，`npm run build` 生成部署输出。
-
-```sh
-npm run test:measurements
-npx tsc --noEmit
-npm run build
+```bash
+npm ci
+npm run dev:pages
+# 或验证真实部署子路径
+npm run build:pages
+npm run preview:pages
 ```
 
-测量及SVG计算在浏览器执行；路线Worker由 `scripts/build-measure-worker.mjs` 构建。`lib/measurement-model.ts` 将旧v2方案迁移到v3，保留已修改坐标；服务端拒绝旧页面覆盖已升级方案。
+Pages 发布来源为 `gh-pages` 分支根目录，包含 `.nojekyll`。源码在 `main`；构建产物通过以下步骤发布：
 
-参考图和概念效果图功能保留。真实AI生图尚未连接凭证；实时测量功能不依赖它。不要提交 `.env`、密钥、运行数据库或私人参考图。网页发布使用现有 `.openai/hosting.json` Site，不应新建替代站点。
+```bash
+npx tsc --noEmit
+npm run test:measurements
+npm run build:pages
+git add .
+git commit -m "Update standalone editor"
+git push https://github.com/xiaoxiao430/xian-home-studio.git HEAD:main
+npm run deploy:pages
+```
 
-字体用于本项目文档与网页嵌入；不授予第三方独立字体再分发许可。
+`deploy:pages` 只在临时目录创建部署提交，不切换工作目录分支、不重写远端历史。需要已有 GitHub push 权限；部署身份从本机 Git 凭证读取。`deployment.json` 记录对应源码版本。
+
+`vite.pages.config.ts` 独立于旧 Sites 构建。默认路径 `/xian-home-studio/`；换域名根目录可设置 `PAGES_BASE=/` 重新构建。旧 Sites 服务端源码保留，作为历史云端数据与原构建兼容代码；新入口不会向旧站发请求。
+
+## 验证范围
+
+浏览器验收包含拖动实时尺寸、970 mm 椅后净距基准、1800 mm 沙发至电视柜净距、两层切换、刷新恢复、四种导出、图片本机保存和手机布局。地区网络可达性是指定节点在指定时间的实测，不能保证所有网络永久可达。
+
+正式文件使用微软雅黑；PDF嵌入字体，DXF指定对应文字样式。字体用于本项目文档与网页嵌入，不授予第三方独立字体再分发许可。
