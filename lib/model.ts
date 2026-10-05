@@ -1,11 +1,13 @@
+import type {Part,Usage,MeasureSpec,RouteSpec,RegionSpec,Anchor} from './measurement-model';
+import {validateMeasurementData} from './measurement-model';
 export type Kind='wall'|'furniture'|'opening'|'zone'|'stair';
 export type Structural='candidate'|'unknown'|'nonload'|'confirmed';
 export type Rect={x:number;y:number;w:number;h:number};
-export type Piece=Rect & {id:string;name:string;type:Kind;rotation:number;structural?:Structural;source?:string;svg?:string;baseW?:number;baseH?:number;color?:string;original?:Rect;locked?:boolean;room?:string;visible?:boolean;openingKind?:'window'|'door'|'opening';};
+export type Piece=Rect & {id:string;name:string;type:Kind;rotation:number;structural?:Structural;source?:string;svg?:string;baseW?:number;baseH?:number;color?:string;original?:Rect;locked?:boolean;room?:string;visible?:boolean;openingKind?:'window'|'door'|'opening';parts?:Part[];usage?:Usage;hostWallIds?:string[];apertureOriginal?:Rect&{rotation:number};};
 export type Room=Rect & {id:string;name:string;};
-export type Floor={id:string;name:string;outline:number[][];originalOutline:number[][];pieces:Piece[];rooms:Room[];source:string;note:string;balconyTopology?:{start:number;end:number;cutY:number};};
+export type Floor={id:string;name:string;outline:number[][];originalOutline:number[][];pieces:Piece[];rooms:Room[];source:string;note:string;balconyTopology?:{start:number;end:number;cutY:number};measurements?:MeasureSpec[];routes?:RouteSpec[];regions?:RegionSpec[];};
 export type Material={style:string;wood:string;stone:string;wall:string;floor:string;light:string;notes:string;};
-export type State={version:2;floors:Floor[];materials:Record<string,Material>;warnings:string[];};
+export type State={version:2|3;floors:Floor[];materials:Record<string,Material>;warnings:string[];};
 export type Reference={id:string;floor_id:string;module:string;name:string;note:string;url:string;created_at:string;};
 export const defaultMaterial:Material={style:'原木 · 奢石 · 意式收纳',wood:'#ad8157',stone:'#e2e1d9',wall:'#f2f0e9',floor:'#c9b99e',light:'自然光 + 3000K暖光',notes:''};
 export const clone=<T,>(v:T):T=>JSON.parse(JSON.stringify(v));
@@ -20,7 +22,8 @@ export function validateState(v:unknown):v is State{
  const num=(n:unknown)=>typeof n==='number'&&Number.isFinite(n)&&Math.abs(n)<100000;
  const rect=(v:any)=>v&&[v.x,v.y,v.w,v.h].every(num)&&v.w>0&&v.h>0&&v.w<50000&&v.h<50000;
  const points=(v:unknown)=>Array.isArray(v)&&v.length>=4&&v.length<=100&&v.every(p=>Array.isArray(p)&&p.length===2&&p.every(num));
- if(s.version!==2||!Array.isArray(s.floors)||s.floors.length!==2||!s.materials||typeof s.materials!=='object'||!Array.isArray(s.warnings)||s.warnings.length>1000||!s.warnings.every(t=>text(t,1000)))return false;
+ if(![2,3].includes(s.version)||!Array.isArray(s.floors)||s.floors.length!==2||!s.materials||typeof s.materials!=='object'||!Array.isArray(s.warnings)||s.warnings.length>1000||!s.warnings.every(t=>text(t,1000)))return false;
+ if(s.version===3&&!s.floors.every(f=>f&&Array.isArray(f.pieces)&&validateMeasurementData(f)))return false;
  if(new Set(s.floors.map(f=>f?.id)).size!==2||!s.floors.every(f=>f&&['f1','f2'].includes(f.id)))return false;
  for(const key of ['f1','f2']){const m=s.materials[key];if(!m||!['style','wood','stone','wall','floor','light','notes'].every(k=>text((m as any)[k],4000))||!['wood','stone','wall','floor'].every(k=>/^#[0-9a-fA-F]{6}$/.test((m as any)[k])))return false;}
  const allIds=new Set<string>();
@@ -44,6 +47,16 @@ export function balconyChange(f:Floor,section:string,amount:number){
  if(newUpper<Math.max(...f.outline.map(q=>q[0]))-4500||newLower<Math.max(...f.outline.map(q=>q[0]))-4500)throw Error('此收进距离过大');
  // The two parts own independent corner nodes at the shared Y level.
  const coast=[[newUpper,top[1]],[newUpper,cut],[newLower,cut],[newLower,bottom[1]]];
+ const oldEnd=t.end,shift=3-(oldEnd-t.start),oldOutline=clone(f.outline);
+ // Keep saved edge anchors on the same architectural edge when the coast gains a corner.
+ const mapEdge=(edge:number)=>{if(edge<t.start)return edge;if(edge>=oldEnd)return edge+shift;
+  const a=oldOutline[edge],b=oldOutline[edge+1];
+  if(Math.abs(a[1]-b[1])<.01)return t.start+1;
+  return (a[1]+b[1])/2<cut?t.start:t.start+2;
+ };
+ const migrateAnchor=(a:Anchor)=>{if(a.kind==='boundary')a.edge=mapEdge(a.edge);};
+ for(const m of f.measurements||[]){if(/^boundary:\d+$/.test(m.id)){const edge=Number(m.id.split(':')[1]),mapped=mapEdge(edge);m.id='boundary:'+mapped;if(m.name==='外轮廓边 '+(edge+1))m.name='外轮廓边 '+(mapped+1);}migrateAnchor(m.a);migrateAnchor(m.b);}
+ for(const r of f.routes||[])r.points.forEach(migrateAnchor);
  f.outline.splice(t.start,t.end-t.start+1,...coast);t.end=t.start+3;
  for(const p of f.pieces){const mid=p.y+p.h/2,upper=mid<cut,delta=upper?newUpper-oldUpper:newLower-oldLower,edge=upper?oldUpper:oldLower;if(!delta||mid<top[1]-2)continue;
  if(p.type==='opening'&&p.id!==f.id+'-balcony-joint'){
