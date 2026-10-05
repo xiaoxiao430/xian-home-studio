@@ -1,0 +1,24 @@
+{
+  "id": "2q358uQtaOrcl828D00021G5b",
+  "createdAt": "2026-10-05T03:31:51.665Z",
+  "status": "finished",
+  "target": "xiaoxiao430.github.io/xian-home-studio/route-worker.js",
+  "probesCount": 1,
+  "shareUrl": "https://globalping.io/?measurement=2q358uQtaOrcl828D00021G5b",
+  "apiUrl": "https://api.globalping.io/v1/measurements/2q358uQtaOrcl828D00021G5b",
+  "results": [
+    {
+      "country": "CN",
+      "city": "Shanghai",
+      "asn": 9808,
+      "network": "China Mobile Communications Group",
+      "status": "failed",
+      "statusCode": null,
+      "statusCodeName": null,
+      "durationMs": 30000,
+      "resolvedAddress": "185.199.108.153",
+      "error": "Request timed out while establishing the TCP connection.",
+      "bodySnippet": ""
+    }
+  ]
+}

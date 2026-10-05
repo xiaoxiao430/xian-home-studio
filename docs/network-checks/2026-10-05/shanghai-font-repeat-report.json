@@ -1,0 +1,66 @@
+{
+  "id": "2WUJrm4GbOoz7jkbQ00021G5c",
+  "type": "http",
+  "status": "finished",
+  "createdAt": "2026-10-05T03:32:23.826Z",
+  "updatedAt": "2026-10-05T03:32:54.102Z",
+  "target": "xiaoxiao430.github.io",
+  "timeout": 30,
+  "probesCount": 1,
+  "locations": [
+    {
+      "country": "CN",
+      "city": "Shanghai",
+      "asn": 9808
+    }
+  ],
+  "measurementOptions": {
+    "port": 443,
+    "request": {
+      "path": "/xian-home-studio/fonts/yahei-full.woff2"
+    }
+  },
+  "results": [
+    {
+      "probe": {
+        "continent": "AS",
+        "region": "Eastern Asia",
+        "country": "CN",
+        "state": null,
+        "city": "Shanghai",
+        "asn": 9808,
+        "longitude": 121.46,
+        "latitude": 31.22,
+        "network": "China Mobile Communications Group",
+        "tags": [
+          "eyeball-network"
+        ],
+        "resolvers": [
+          "private",
+          "private"
+        ]
+      },
+      "result": {
+        "status": "failed",
+        "failureSource": "target",
+        "resolvedAddress": "185.199.108.153",
+        "headers": {},
+        "rawHeaders": null,
+        "rawBody": null,
+        "rawOutput": "Request timed out while establishing the TCP connection.",
+        "truncated": false,
+        "statusCode": null,
+        "statusCodeName": null,
+        "timings": {
+          "total": 30001,
+          "dns": 33,
+          "tcp": null,
+          "tls": null,
+          "firstByte": null,
+          "download": null
+        },
+        "tls": null
+      }
+    }
+  ]
+}

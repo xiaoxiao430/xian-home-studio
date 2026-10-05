@@ -1,0 +1,27 @@
+{
+  "request": {
+    "type": "http",
+    "target": "xiaoxiao430.github.io",
+    "locations": [
+      {
+        "country": "CN",
+        "city": "Shanghai",
+        "asn": 9808,
+        "limit": 1
+      }
+    ],
+    "timeout": 30,
+    "measurementOptions": {
+      "protocol": "HTTPS",
+      "port": 443,
+      "request": {
+        "path": "/xian-home-studio/assets/index-BvamD62s.js",
+        "method": "GET"
+      }
+    }
+  },
+  "response": {
+    "id": "2UqasKYclwybb3Udm00021G5b",
+    "probesCount": 1
+  }
+}

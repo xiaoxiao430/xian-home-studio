@@ -1,0 +1,24 @@
+{
+  "id": "2Z3L7whMpXkAhHmz000021G5b",
+  "createdAt": "2026-10-05T03:31:59.784Z",
+  "status": "finished",
+  "target": "xiaoxiao430.github.io/xian-home-studio/assets/index-BvamD62s.js",
+  "probesCount": 1,
+  "shareUrl": "https://globalping.io/?measurement=2Z3L7whMpXkAhHmz000021G5b",
+  "apiUrl": "https://api.globalping.io/v1/measurements/2Z3L7whMpXkAhHmz000021G5b",
+  "results": [
+    {
+      "country": "CN",
+      "city": "Wuxi",
+      "asn": 56046,
+      "network": "China Mobile Communications",
+      "status": "finished",
+      "statusCode": 200,
+      "statusCodeName": "OK",
+      "durationMs": 600,
+      "resolvedAddress": "185.199.109.153",
+      "error": null,
+      "bodySnippet": "var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=Object.getOwnPropert"
+    }
+  ]
+}

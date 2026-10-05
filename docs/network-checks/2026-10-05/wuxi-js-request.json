@@ -1,0 +1,27 @@
+{
+  "request": {
+    "type": "http",
+    "target": "xiaoxiao430.github.io",
+    "locations": [
+      {
+        "country": "CN",
+        "city": "Wuxi",
+        "asn": 56046,
+        "limit": 1
+      }
+    ],
+    "timeout": 30,
+    "measurementOptions": {
+      "protocol": "HTTPS",
+      "port": 443,
+      "request": {
+        "path": "/xian-home-studio/assets/index-BvamD62s.js",
+        "method": "GET"
+      }
+    }
+  },
+  "response": {
+    "id": "2Z3L7whMpXkAhHmz000021G5b",
+    "probesCount": 1
+  }
+}

@@ -2,6 +2,8 @@
 
 正式入口：https://xiaoxiao430.github.io/xian-home-studio/
 
+[2026-10-05 地区实测报告](docs/reachability-2026-10-05.md)：新加坡三运营商及六个大陆样本四项通过；上海移动样本的部分资源连接持续超时。不能保证所有网络稳定可用。
+
 这个入口由 GitHub Pages 提供，无需登录，不依赖 OpenAI Sites、ChatGPT、Cloudflare Workers 或外部 CDN。脚本、路由计算线程和字体均由同一站点提供。
 
 ## 编辑与保存

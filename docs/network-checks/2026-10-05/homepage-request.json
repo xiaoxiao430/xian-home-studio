@@ -1,0 +1,20 @@
+{
+  "request": {
+    "type": "http",
+    "target": "xiaoxiao430.github.io",
+    "locations": "2ElXZJ0l9sSHpyPuE00021G5U",
+    "timeout": 30,
+    "measurementOptions": {
+      "protocol": "HTTPS",
+      "port": 443,
+      "request": {
+        "path": "/xian-home-studio/",
+        "method": "GET"
+      }
+    }
+  },
+  "response": {
+    "id": "2EM9Uha9NSqFygHTj00021G5a",
+    "probesCount": 9
+  }
+}

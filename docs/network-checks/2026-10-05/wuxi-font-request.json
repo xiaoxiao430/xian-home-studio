@@ -1,0 +1,20 @@
+{
+  "request": {
+    "type": "http",
+    "target": "xiaoxiao430.github.io",
+    "locations": "2Z3L7whMpXkAhHmz000021G5b",
+    "timeout": 30,
+    "measurementOptions": {
+      "protocol": "HTTPS",
+      "port": 443,
+      "request": {
+        "path": "/xian-home-studio/fonts/yahei-full.woff2",
+        "method": "HEAD"
+      }
+    }
+  },
+  "response": {
+    "id": "2K41CtPq5O0H3O7MN00021G5h",
+    "probesCount": 1
+  }
+}
