@@ -1,5 +1,5 @@
 import {spawnSync} from 'node:child_process';
-import {mkdtempSync,cpSync,readdirSync,rmSync,writeFileSync,existsSync} from 'node:fs';
+import {mkdtempSync,cpSync,readdirSync,rmSync,writeFileSync,existsSync,mkdirSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join,resolve} from 'node:path';
 const repo='https://github.com/xiaoxiao430/xian-home-studio.git';
@@ -9,6 +9,10 @@ const dir=mkdtempSync(join(tmpdir(),'xian-pages-'));
 function git(args,check=true){const r=spawnSync('git',args,{cwd:dir,encoding:'utf8'});if(check&&r.status!==0)throw Error(r.stderr||'Git failed');return r;}
 try{
  git(['init','--initial-branch=gh-pages']);git(['remote','add','origin',repo]);
+ // Borrow local objects so deployment does not download the same embedded fonts again.
+ const objects=spawnSync('git',['rev-parse','--git-path','objects'],{cwd:root,encoding:'utf8'});
+ const head=spawnSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'});
+ if(objects.status===0&&head.status===0){mkdirSync(join(dir,'.git/objects/info'),{recursive:true});writeFileSync(join(dir,'.git/objects/info/alternates'),resolve(root,objects.stdout.trim())+'\n');git(['update-ref','refs/heads/build-source',head.stdout.trim()]);}
  const remote=git(['ls-remote','--heads','origin','gh-pages']);
  if(remote.stdout.trim()){git(['fetch','--depth=1','origin','gh-pages']);git(['reset','--hard','FETCH_HEAD']);}
  for(const name of readdirSync(dir))if(name!=='.git')rmSync(join(dir,name),{recursive:true,force:true});
