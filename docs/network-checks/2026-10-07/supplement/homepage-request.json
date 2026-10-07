@@ -1,0 +1,40 @@
+{
+  "sentAt": "2026-10-07T09:46:46.914Z",
+  "request": {
+    "type": "http",
+    "target": "jmryqyx.cn",
+    "locations": [
+      {
+        "country": "CN",
+        "city": "Xi'an",
+        "asn": 4134,
+        "limit": 1
+      },
+      {
+        "country": "CN",
+        "city": "Wuhan",
+        "asn": 4837,
+        "limit": 1
+      }
+    ],
+    "timeout": 30,
+    "measurementOptions": {
+      "protocol": "HTTPS",
+      "port": 443,
+      "request": {
+        "path": "/xian-home/",
+        "method": "GET"
+      }
+    }
+  },
+  "status": 422,
+  "response": {
+    "error": {
+      "type": "no_probes_found",
+      "message": "No matching IPv4 probes available."
+    },
+    "links": {
+      "documentation": "https://globalping.io/docs/api.globalping.io#post-/v1/measurements"
+    }
+  }
+}

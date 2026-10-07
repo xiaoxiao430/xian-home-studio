@@ -1,0 +1,46 @@
+{
+  "id": "20g4xTB7Un5LbRAJH00021Gw8",
+  "resource": "font",
+  "name": "微软雅黑字体 HEAD",
+  "path": "/xian-home/fonts/yahei-full.woff2",
+  "method": "HEAD",
+  "round": 1,
+  "createdAt": "2026-10-07T09:48:09.098Z",
+  "status": "finished",
+  "results": [
+    {
+      "country": "CN",
+      "city": "Nanjing",
+      "asn": 4134,
+      "network": "Chinanet Backbone",
+      "status": "finished",
+      "statusCode": 200,
+      "success": true,
+      "typeMatches": true,
+      "bodyMatches": null,
+      "contentType": "font/woff2",
+      "contentLength": null,
+      "remoteAddress": "218.64.194.16",
+      "totalMs": 293,
+      "error": null,
+      "bodyPrefix": ""
+    },
+    {
+      "country": "CN",
+      "city": "Changsha",
+      "asn": 4837,
+      "network": "CHINA UNICOM China169 Backbone",
+      "status": "finished",
+      "statusCode": 200,
+      "success": true,
+      "typeMatches": true,
+      "bodyMatches": null,
+      "contentType": "font/woff2",
+      "contentLength": null,
+      "remoteAddress": "218.64.194.16",
+      "totalMs": 72,
+      "error": null,
+      "bodyPrefix": ""
+    }
+  ]
+}

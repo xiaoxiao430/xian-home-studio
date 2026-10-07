@@ -1,0 +1,14 @@
+[
+  {
+    "country": "CN",
+    "city": "Nanjing",
+    "asn": 4134,
+    "limit": 1
+  },
+  {
+    "country": "CN",
+    "city": "Changsha",
+    "asn": 4837,
+    "limit": 1
+  }
+]

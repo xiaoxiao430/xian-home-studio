@@ -3,7 +3,7 @@ import seed from '../data/seed.json';
 import {migrateState,rectRing} from '../lib/measurement-model';
 import {validateState,balconyChange,type State,type Floor} from '../lib/model';
 import {computeScene,measureSpec,pieceShapes,pointInRing,dimensionsFor,ringArea,toWorld} from '../lib/geometry';
-import {analyzeRoutes} from '../lib/routes';
+import {analyzeRoutes,annotateRouteUse} from '../lib/routes';
 import {dxfDrawing,csvDrawing,svgDrawing} from '../lib/designer-export';
 import fs from 'node:fs';
 const s=migrateState(seed as State),f=s.floors[0];assert.equal(s.version,3);assert(validateState(s));assert.deepEqual(migrateState(s),s);
@@ -28,3 +28,6 @@ const start=performance.now(),dims=dimensionsFor(f,scene,'',true);console.log('a
 const routeStart=performance.now();const route=analyzeRoutes({requestId:1,floorId:'test',outline:rectRing(0,0,4000,2000),free:[[rectRing(0,0,4000,2000)]],resolution:10,requests:[{id:'open',name:'open',points:[[800,1000],[3200,1000]],target:900}]});assert.equal(route.results[0].status,'ok');assert(route.results[0].width!>=900);console.log('route ms',Math.round(performance.now()-routeStart));
 const blocked=analyzeRoutes({requestId:2,floorId:'test',outline:rectRing(0,0,4000,2000),free:[[rectRing(0,0,1800,2000)],[rectRing(2000,0,2000,2000)]],resolution:25,requests:[{id:'b',name:'b',points:[[800,1000],[3200,1000]],target:900}]});assert.equal(blocked.results[0].status,'blocked');
 const output=process.env.TEST_OUTPUT||'/tmp/xian-measure-checks';fs.mkdirSync(output,{recursive:true});fs.writeFileSync(output+'/first-floor.dxf',dxfDrawing(f,scene,dims,[],1));fs.writeFileSync(output+'/first-floor.csv',csvDrawing(f,dims,[],1));fs.writeFileSync(output+'/first-floor.svg',svgDrawing(f,scene,dims,[],1));fs.writeFileSync(output+'/migrated.json',JSON.stringify(s));console.log('PASS geometry, migration, rotations, clearances, routes and export fixtures');
+
+const unrated=analyzeRoutes({requestId:3,floorId:'test',outline:rectRing(0,0,4000,2000),free:[[rectRing(0,0,4000,2000)]],resolution:25,requests:[{id:'u',name:'no target',points:[[800,1000],[3200,1000]],target:0}]});assert.equal(unrated.results[0].status,'unrated');assert(unrated.results[0].width!>0);
+const zoneFloor=structuredClone(f);zoneFloor.pieces=[{id:'children',name:'儿童活动区',type:'zone',x:1700,y:500,w:500,h:1000,rotation:30}];const across=annotateRouteUse(zoneFloor,{...unrated.results[0],points:[[800,1000],[3200,1000]]});assert.match(across.note,/儿童活动区/);console.log('PASS optional route targets and route crossing child space');

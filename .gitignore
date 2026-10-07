@@ -49,3 +49,7 @@ next-env.d.ts
 *.tsbuildinfo
 
 /dist-pages/
+/dist-studio/
+/private-data/
+/server/model.cjs
+/.studio-test/

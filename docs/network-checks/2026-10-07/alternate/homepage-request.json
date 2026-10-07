@@ -1,0 +1,35 @@
+{
+  "sentAt": "2026-10-07T09:47:58.061Z",
+  "request": {
+    "type": "http",
+    "target": "jmryqyx.cn",
+    "locations": [
+      {
+        "country": "CN",
+        "city": "Nanjing",
+        "asn": 4134,
+        "limit": 1
+      },
+      {
+        "country": "CN",
+        "city": "Changsha",
+        "asn": 4837,
+        "limit": 1
+      }
+    ],
+    "timeout": 30,
+    "measurementOptions": {
+      "protocol": "HTTPS",
+      "port": 443,
+      "request": {
+        "path": "/xian-home/",
+        "method": "GET"
+      }
+    }
+  },
+  "status": 202,
+  "response": {
+    "id": "2JnaacYBJm3WWCntC00021Gw8",
+    "probesCount": 2
+  }
+}

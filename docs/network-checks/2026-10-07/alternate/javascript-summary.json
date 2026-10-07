@@ -1,0 +1,46 @@
+{
+  "id": "2Vt9fp5673wFYzpZ600021Gw8",
+  "resource": "javascript",
+  "name": "主 JavaScript",
+  "path": "/xian-home/assets/index-BrmKRX89.js",
+  "method": "GET",
+  "round": 1,
+  "createdAt": "2026-10-07T09:48:03.125Z",
+  "status": "finished",
+  "results": [
+    {
+      "country": "CN",
+      "city": "Nanjing",
+      "asn": 4134,
+      "network": "Chinanet Backbone",
+      "status": "finished",
+      "statusCode": 200,
+      "success": true,
+      "typeMatches": true,
+      "bodyMatches": true,
+      "contentType": "text/javascript; charset=utf-8",
+      "contentLength": null,
+      "remoteAddress": "218.64.194.16",
+      "totalMs": 565,
+      "error": null,
+      "bodyPrefix": "const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=[\"assets/OrbitControls-BujbYgHy.js\",\"assets/three.module-DlqJz16g.js\"])))=>i.map(i=>d[i]);\nvar e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=Object.getOwnPropertyNames,i=Object.getPrototypeOf,a=Object.prototype.hasOwnProperty,o=(e,t)=>()=>(t||(e((t={exports:{}}).exports,t),e=null),t.exports),s=(e,i,o,s)=>{if(i&&typeof i==`object`||typeof i==`function`)for(var c=r(i),l=0,u=c.length,d;l<u;l++)d=c[l],!a.call(e,d)&&d!==o&&t(e,d,{get:(e=>i[e]).bind(null,d),enumerable:!(s=n(i,d))||s.enumerable});return e},c=(n,r,a)"
+    },
+    {
+      "country": "CN",
+      "city": "Changsha",
+      "asn": 4837,
+      "network": "CHINA UNICOM China169 Backbone",
+      "status": "finished",
+      "statusCode": 200,
+      "success": true,
+      "typeMatches": true,
+      "bodyMatches": true,
+      "contentType": "text/javascript; charset=utf-8",
+      "contentLength": null,
+      "remoteAddress": "218.64.194.16",
+      "totalMs": 88,
+      "error": null,
+      "bodyPrefix": "const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=[\"assets/OrbitControls-BujbYgHy.js\",\"assets/three.module-DlqJz16g.js\"])))=>i.map(i=>d[i]);\nvar e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=Object.getOwnPropertyNames,i=Object.getPrototypeOf,a=Object.prototype.hasOwnProperty,o=(e,t)=>()=>(t||(e((t={exports:{}}).exports,t),e=null),t.exports),s=(e,i,o,s)=>{if(i&&typeof i==`object`||typeof i==`function`)for(var c=r(i),l=0,u=c.length,d;l<u;l++)d=c[l],!a.call(e,d)&&d!==o&&t(e,d,{get:(e=>i[e]).bind(null,d),enumerable:!(s=n(i,d))||s.enumerable});return e},c=(n,r,a)"
+    }
+  ]
+}

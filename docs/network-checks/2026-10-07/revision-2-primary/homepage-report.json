@@ -1,0 +1,513 @@
+{
+  "id": "2M0oVzQgsyMffTmgc00021GwB",
+  "type": "http",
+  "status": "finished",
+  "createdAt": "2026-10-07T09:51:40.556Z",
+  "updatedAt": "2026-10-07T09:51:46.625Z",
+  "target": "jmryqyx.cn",
+  "timeout": 30,
+  "probesCount": 7,
+  "locations": [
+    {
+      "country": "CN",
+      "city": "Xi'an",
+      "asn": 4134
+    },
+    {
+      "country": "CN",
+      "city": "Guangzhou",
+      "asn": 4134
+    },
+    {
+      "country": "CN",
+      "city": "Wuhan",
+      "asn": 4837
+    },
+    {
+      "country": "CN",
+      "city": "Shanghai",
+      "asn": 17621
+    },
+    {
+      "country": "CN",
+      "city": "Shanghai",
+      "asn": 9808
+    },
+    {
+      "country": "CN",
+      "city": "Beijing",
+      "asn": 56048
+    },
+    {
+      "country": "SG",
+      "asn": 4773
+    },
+    {
+      "country": "SG",
+      "asn": 18106
+    },
+    {
+      "country": "SG",
+      "asn": 56300
+    }
+  ],
+  "measurementOptions": {
+    "port": 443,
+    "request": {
+      "path": "/xian-home/",
+      "method": "GET"
+    }
+  },
+  "results": [
+    {
+      "probe": {
+        "continent": "AS",
+        "region": "Eastern Asia",
+        "country": "CN",
+        "state": null,
+        "city": "Guangzhou",
+        "asn": 4134,
+        "longitude": 113.25,
+        "latitude": 23.12,
+        "network": "Chinanet Backbone",
+        "tags": [
+          "eyeball-network"
+        ],
+        "resolvers": [
+          "private"
+        ]
+      },
+      "result": {
+        "status": "offline",
+        "rawOutput": "This probe is currently offline. Please try again later."
+      }
+    },
+    {
+      "probe": {
+        "continent": "AS",
+        "region": "Eastern Asia",
+        "country": "CN",
+        "state": null,
+        "city": "Shanghai",
+        "asn": 17621,
+        "longitude": 121.46,
+        "latitude": 31.22,
+        "network": "China Unicom Shanghai network",
+        "tags": [
+          "eyeball-network"
+        ],
+        "resolvers": [
+          "private",
+          "114.114.114.114",
+          "8.8.8.8"
+        ]
+      },
+      "result": {
+        "status": "finished",
+        "resolvedAddress": "218.64.194.16",
+        "headers": {
+          "server": "nginx/1.31.3",
+          "date": "Wed, 07 Oct 2026 09:51:40 GMT",
+          "content-type": "text/html; charset=utf-8",
+          "transfer-encoding": "chunked",
+          "connection": "close",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "x-frame-options": "DENY",
+          "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
+          "cache-control": "no-cache"
+        },
+        "rawHeaders": "Server: nginx/1.31.3\nDate: Wed, 07 Oct 2026 09:51:40 GMT\nContent-Type: text/html; charset=utf-8\nTransfer-Encoding: chunked\nConnection: close\nX-Content-Type-Options: nosniff\nReferrer-Policy: no-referrer\nX-Frame-Options: DENY\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'\nCache-Control: no-cache",
+        "rawBody": "<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"/><meta name=\"robots\" content=\"noindex,nofollow\"/><meta name=\"description\" content=\"西安的家，两层方案、实时尺寸、立面三维与设计交底。\"/><title>西安的家 · 空间研究室</title><link rel=\"icon\" href=\"/xian-home/favicon.svg\" type=\"image/svg+xml\"/>  <script type=\"module\" crossorigin src=\"/xian-home/assets/index-BxpMhwyC.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/xian-home/assets/index-Bce7JxEA.css\">\n</head><body><div id=\"root\"><p style=\"padding:40px;font-family:'Microsoft YaHei'\">正在打开空间研究室…</p></div></body></html>\n",
+        "rawOutput": "HTTP/1.1 200\nServer: nginx/1.31.3\nDate: Wed, 07 Oct 2026 09:51:40 GMT\nContent-Type: text/html; charset=utf-8\nTransfer-Encoding: chunked\nConnection: close\nX-Content-Type-Options: nosniff\nReferrer-Policy: no-referrer\nX-Frame-Options: DENY\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'\nCache-Control: no-cache\n\n<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"/><meta name=\"robots\" content=\"noindex,nofollow\"/><meta name=\"description\" content=\"西安的家，两层方案、实时尺寸、立面三维与设计交底。\"/><title>西安的家 · 空间研究室</title><link rel=\"icon\" href=\"/xian-home/favicon.svg\" type=\"image/svg+xml\"/>  <script type=\"module\" crossorigin src=\"/xian-home/assets/index-BxpMhwyC.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/xian-home/assets/index-Bce7JxEA.css\">\n</head><body><div id=\"root\"><p style=\"padding:40px;font-family:'Microsoft YaHei'\">正在打开空间研究室…</p></div></body></html>\n",
+        "truncated": false,
+        "statusCode": 200,
+        "statusCodeName": "OK",
+        "timings": {
+          "total": 93,
+          "dns": 1,
+          "tcp": 24,
+          "tls": 41,
+          "firstByte": 27,
+          "download": 0
+        },
+        "tls": {
+          "authorized": true,
+          "protocol": "TLSv1.3",
+          "cipherName": "TLS_AES_256_GCM_SHA384",
+          "createdAt": "2026-08-03T00:33:06.000Z",
+          "expiresAt": "2026-11-01T00:33:05.000Z",
+          "issuer": {
+            "C": "US",
+            "O": "Let's Encrypt",
+            "CN": "YE2"
+          },
+          "subject": {
+            "CN": "jmryqyx.cn",
+            "alt": "DNS:jmryqyx.cn, DNS:www.jmryqyx.cn"
+          },
+          "keyType": "EC",
+          "keyBits": 256,
+          "serialNumber": "05:E6:D2:2A:CE:D3:9D:9A:C1:AA:2E:85:ED:5A:AB:6E:D8:8F",
+          "fingerprint256": "9F:0B:E6:E8:1F:4B:7C:B7:D1:29:C9:D3:0D:63:FE:4E:B8:BB:23:9B:C2:9A:EB:5E:73:B1:3E:FC:65:0E:F5:39",
+          "publicKey": "04:8F:54:63:CA:B8:78:B7:0A:54:C6:84:85:90:91:FD:FD:C9:E0:9A:6F:3C:79:3C:29:1F:CE:92:E2:18:16:78:47:63:E8:1B:9A:79:28:84:AA:BA:78:7D:CC:26:F0:76:11:BC:B1:43:29:23:56:C4:5E:39:23:0B:BC:A3:6E:77:0E"
+        }
+      }
+    },
+    {
+      "probe": {
+        "continent": "AS",
+        "region": "Eastern Asia",
+        "country": "CN",
+        "state": null,
+        "city": "Shanghai",
+        "asn": 9808,
+        "longitude": 121.46,
+        "latitude": 31.22,
+        "network": "China Mobile Communications Group",
+        "tags": [
+          "eyeball-network"
+        ],
+        "resolvers": [
+          "private",
+          "private"
+        ]
+      },
+      "result": {
+        "status": "finished",
+        "resolvedAddress": "218.64.194.16",
+        "headers": {
+          "server": "nginx/1.31.3",
+          "date": "Wed, 07 Oct 2026 09:51:40 GMT",
+          "content-type": "text/html; charset=utf-8",
+          "transfer-encoding": "chunked",
+          "connection": "close",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "x-frame-options": "DENY",
+          "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
+          "cache-control": "no-cache"
+        },
+        "rawHeaders": "Server: nginx/1.31.3\nDate: Wed, 07 Oct 2026 09:51:40 GMT\nContent-Type: text/html; charset=utf-8\nTransfer-Encoding: chunked\nConnection: close\nX-Content-Type-Options: nosniff\nReferrer-Policy: no-referrer\nX-Frame-Options: DENY\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'\nCache-Control: no-cache",
+        "rawBody": "<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"/><meta name=\"robots\" content=\"noindex,nofollow\"/><meta name=\"description\" content=\"西安的家，两层方案、实时尺寸、立面三维与设计交底。\"/><title>西安的家 · 空间研究室</title><link rel=\"icon\" href=\"/xian-home/favicon.svg\" type=\"image/svg+xml\"/>  <script type=\"module\" crossorigin src=\"/xian-home/assets/index-BxpMhwyC.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/xian-home/assets/index-Bce7JxEA.css\">\n</head><body><div id=\"root\"><p style=\"padding:40px;font-family:'Microsoft YaHei'\">正在打开空间研究室…</p></div></body></html>\n",
+        "rawOutput": "HTTP/1.1 200\nServer: nginx/1.31.3\nDate: Wed, 07 Oct 2026 09:51:40 GMT\nContent-Type: text/html; charset=utf-8\nTransfer-Encoding: chunked\nConnection: close\nX-Content-Type-Options: nosniff\nReferrer-Policy: no-referrer\nX-Frame-Options: DENY\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'\nCache-Control: no-cache\n\n<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"/><meta name=\"robots\" content=\"noindex,nofollow\"/><meta name=\"description\" content=\"西安的家，两层方案、实时尺寸、立面三维与设计交底。\"/><title>西安的家 · 空间研究室</title><link rel=\"icon\" href=\"/xian-home/favicon.svg\" type=\"image/svg+xml\"/>  <script type=\"module\" crossorigin src=\"/xian-home/assets/index-BxpMhwyC.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/xian-home/assets/index-Bce7JxEA.css\">\n</head><body><div id=\"root\"><p style=\"padding:40px;font-family:'Microsoft YaHei'\">正在打开空间研究室…</p></div></body></html>\n",
+        "truncated": false,
+        "statusCode": 200,
+        "statusCodeName": "OK",
+        "timings": {
+          "total": 158,
+          "dns": 31,
+          "tcp": 21,
+          "tls": 79,
+          "firstByte": 27,
+          "download": 0
+        },
+        "tls": {
+          "authorized": true,
+          "protocol": "TLSv1.3",
+          "cipherName": "TLS_AES_256_GCM_SHA384",
+          "createdAt": "2026-08-03T00:33:06.000Z",
+          "expiresAt": "2026-11-01T00:33:05.000Z",
+          "issuer": {
+            "C": "US",
+            "O": "Let's Encrypt",
+            "CN": "YE2"
+          },
+          "subject": {
+            "CN": "jmryqyx.cn",
+            "alt": "DNS:jmryqyx.cn, DNS:www.jmryqyx.cn"
+          },
+          "keyType": "EC",
+          "keyBits": 256,
+          "serialNumber": "05:E6:D2:2A:CE:D3:9D:9A:C1:AA:2E:85:ED:5A:AB:6E:D8:8F",
+          "fingerprint256": "9F:0B:E6:E8:1F:4B:7C:B7:D1:29:C9:D3:0D:63:FE:4E:B8:BB:23:9B:C2:9A:EB:5E:73:B1:3E:FC:65:0E:F5:39",
+          "publicKey": "04:8F:54:63:CA:B8:78:B7:0A:54:C6:84:85:90:91:FD:FD:C9:E0:9A:6F:3C:79:3C:29:1F:CE:92:E2:18:16:78:47:63:E8:1B:9A:79:28:84:AA:BA:78:7D:CC:26:F0:76:11:BC:B1:43:29:23:56:C4:5E:39:23:0B:BC:A3:6E:77:0E"
+        }
+      }
+    },
+    {
+      "probe": {
+        "continent": "AS",
+        "region": "Eastern Asia",
+        "country": "CN",
+        "state": null,
+        "city": "Beijing",
+        "asn": 56048,
+        "longitude": 116.4,
+        "latitude": 39.91,
+        "network": "China Mobile Communicaitons",
+        "tags": [
+          "eyeball-network"
+        ],
+        "resolvers": [
+          "119.29.29.29"
+        ]
+      },
+      "result": {
+        "status": "finished",
+        "resolvedAddress": "218.64.194.16",
+        "headers": {
+          "server": "nginx/1.31.3",
+          "date": "Wed, 07 Oct 2026 09:51:40 GMT",
+          "content-type": "text/html; charset=utf-8",
+          "transfer-encoding": "chunked",
+          "connection": "close",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "x-frame-options": "DENY",
+          "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
+          "cache-control": "no-cache"
+        },
+        "rawHeaders": "Server: nginx/1.31.3\nDate: Wed, 07 Oct 2026 09:51:40 GMT\nContent-Type: text/html; charset=utf-8\nTransfer-Encoding: chunked\nConnection: close\nX-Content-Type-Options: nosniff\nReferrer-Policy: no-referrer\nX-Frame-Options: DENY\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'\nCache-Control: no-cache",
+        "rawBody": "<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"/><meta name=\"robots\" content=\"noindex,nofollow\"/><meta name=\"description\" content=\"西安的家，两层方案、实时尺寸、立面三维与设计交底。\"/><title>西安的家 · 空间研究室</title><link rel=\"icon\" href=\"/xian-home/favicon.svg\" type=\"image/svg+xml\"/>  <script type=\"module\" crossorigin src=\"/xian-home/assets/index-BxpMhwyC.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/xian-home/assets/index-Bce7JxEA.css\">\n</head><body><div id=\"root\"><p style=\"padding:40px;font-family:'Microsoft YaHei'\">正在打开空间研究室…</p></div></body></html>\n",
+        "rawOutput": "HTTP/1.1 200\nServer: nginx/1.31.3\nDate: Wed, 07 Oct 2026 09:51:40 GMT\nContent-Type: text/html; charset=utf-8\nTransfer-Encoding: chunked\nConnection: close\nX-Content-Type-Options: nosniff\nReferrer-Policy: no-referrer\nX-Frame-Options: DENY\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'\nCache-Control: no-cache\n\n<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"/><meta name=\"robots\" content=\"noindex,nofollow\"/><meta name=\"description\" content=\"西安的家，两层方案、实时尺寸、立面三维与设计交底。\"/><title>西安的家 · 空间研究室</title><link rel=\"icon\" href=\"/xian-home/favicon.svg\" type=\"image/svg+xml\"/>  <script type=\"module\" crossorigin src=\"/xian-home/assets/index-BxpMhwyC.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/xian-home/assets/index-Bce7JxEA.css\">\n</head><body><div id=\"root\"><p style=\"padding:40px;font-family:'Microsoft YaHei'\">正在打开空间研究室…</p></div></body></html>\n",
+        "truncated": false,
+        "statusCode": 200,
+        "statusCodeName": "OK",
+        "timings": {
+          "total": 179,
+          "dns": 20,
+          "tcp": 48,
+          "tls": 59,
+          "firstByte": 52,
+          "download": 0
+        },
+        "tls": {
+          "authorized": true,
+          "protocol": "TLSv1.3",
+          "cipherName": "TLS_AES_256_GCM_SHA384",
+          "createdAt": "2026-08-03T00:33:06.000Z",
+          "expiresAt": "2026-11-01T00:33:05.000Z",
+          "issuer": {
+            "C": "US",
+            "O": "Let's Encrypt",
+            "CN": "YE2"
+          },
+          "subject": {
+            "CN": "jmryqyx.cn",
+            "alt": "DNS:jmryqyx.cn, DNS:www.jmryqyx.cn"
+          },
+          "keyType": "EC",
+          "keyBits": 256,
+          "serialNumber": "05:E6:D2:2A:CE:D3:9D:9A:C1:AA:2E:85:ED:5A:AB:6E:D8:8F",
+          "fingerprint256": "9F:0B:E6:E8:1F:4B:7C:B7:D1:29:C9:D3:0D:63:FE:4E:B8:BB:23:9B:C2:9A:EB:5E:73:B1:3E:FC:65:0E:F5:39",
+          "publicKey": "04:8F:54:63:CA:B8:78:B7:0A:54:C6:84:85:90:91:FD:FD:C9:E0:9A:6F:3C:79:3C:29:1F:CE:92:E2:18:16:78:47:63:E8:1B:9A:79:28:84:AA:BA:78:7D:CC:26:F0:76:11:BC:B1:43:29:23:56:C4:5E:39:23:0B:BC:A3:6E:77:0E"
+        }
+      }
+    },
+    {
+      "probe": {
+        "continent": "AS",
+        "region": "South-eastern Asia",
+        "country": "SG",
+        "state": null,
+        "city": "Singapore",
+        "asn": 4773,
+        "longitude": 103.85,
+        "latitude": 1.29,
+        "network": "MobileOne Ltd. Mobile/Internet Service Provider Singapore",
+        "tags": [
+          "eyeball-network"
+        ],
+        "resolvers": [
+          "private",
+          "private"
+        ]
+      },
+      "result": {
+        "status": "finished",
+        "resolvedAddress": "218.64.194.16",
+        "headers": {
+          "server": "nginx/1.31.3",
+          "date": "Wed, 07 Oct 2026 09:51:42 GMT",
+          "content-type": "text/html; charset=utf-8",
+          "transfer-encoding": "chunked",
+          "connection": "close",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "x-frame-options": "DENY",
+          "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
+          "cache-control": "no-cache"
+        },
+        "rawHeaders": "Server: nginx/1.31.3\nDate: Wed, 07 Oct 2026 09:51:42 GMT\nContent-Type: text/html; charset=utf-8\nTransfer-Encoding: chunked\nConnection: close\nX-Content-Type-Options: nosniff\nReferrer-Policy: no-referrer\nX-Frame-Options: DENY\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'\nCache-Control: no-cache",
+        "rawBody": "<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"/><meta name=\"robots\" content=\"noindex,nofollow\"/><meta name=\"description\" content=\"西安的家，两层方案、实时尺寸、立面三维与设计交底。\"/><title>西安的家 · 空间研究室</title><link rel=\"icon\" href=\"/xian-home/favicon.svg\" type=\"image/svg+xml\"/>  <script type=\"module\" crossorigin src=\"/xian-home/assets/index-BxpMhwyC.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/xian-home/assets/index-Bce7JxEA.css\">\n</head><body><div id=\"root\"><p style=\"padding:40px;font-family:'Microsoft YaHei'\">正在打开空间研究室…</p></div></body></html>\n",
+        "rawOutput": "HTTP/1.1 200\nServer: nginx/1.31.3\nDate: Wed, 07 Oct 2026 09:51:42 GMT\nContent-Type: text/html; charset=utf-8\nTransfer-Encoding: chunked\nConnection: close\nX-Content-Type-Options: nosniff\nReferrer-Policy: no-referrer\nX-Frame-Options: DENY\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'\nCache-Control: no-cache\n\n<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"/><meta name=\"robots\" content=\"noindex,nofollow\"/><meta name=\"description\" content=\"西安的家，两层方案、实时尺寸、立面三维与设计交底。\"/><title>西安的家 · 空间研究室</title><link rel=\"icon\" href=\"/xian-home/favicon.svg\" type=\"image/svg+xml\"/>  <script type=\"module\" crossorigin src=\"/xian-home/assets/index-BxpMhwyC.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/xian-home/assets/index-Bce7JxEA.css\">\n</head><body><div id=\"root\"><p style=\"padding:40px;font-family:'Microsoft YaHei'\">正在打开空间研究室…</p></div></body></html>\n",
+        "truncated": false,
+        "statusCode": 200,
+        "statusCodeName": "OK",
+        "timings": {
+          "total": 1854,
+          "dns": 3,
+          "tcp": 264,
+          "tls": 1305,
+          "firstByte": 282,
+          "download": 0
+        },
+        "tls": {
+          "authorized": true,
+          "protocol": "TLSv1.3",
+          "cipherName": "TLS_AES_256_GCM_SHA384",
+          "createdAt": "2026-08-03T00:33:06.000Z",
+          "expiresAt": "2026-11-01T00:33:05.000Z",
+          "issuer": {
+            "C": "US",
+            "O": "Let's Encrypt",
+            "CN": "YE2"
+          },
+          "subject": {
+            "CN": "jmryqyx.cn",
+            "alt": "DNS:jmryqyx.cn, DNS:www.jmryqyx.cn"
+          },
+          "keyType": "EC",
+          "keyBits": 256,
+          "serialNumber": "05:E6:D2:2A:CE:D3:9D:9A:C1:AA:2E:85:ED:5A:AB:6E:D8:8F",
+          "fingerprint256": "9F:0B:E6:E8:1F:4B:7C:B7:D1:29:C9:D3:0D:63:FE:4E:B8:BB:23:9B:C2:9A:EB:5E:73:B1:3E:FC:65:0E:F5:39",
+          "publicKey": "04:8F:54:63:CA:B8:78:B7:0A:54:C6:84:85:90:91:FD:FD:C9:E0:9A:6F:3C:79:3C:29:1F:CE:92:E2:18:16:78:47:63:E8:1B:9A:79:28:84:AA:BA:78:7D:CC:26:F0:76:11:BC:B1:43:29:23:56:C4:5E:39:23:0B:BC:A3:6E:77:0E"
+        }
+      }
+    },
+    {
+      "probe": {
+        "continent": "AS",
+        "region": "South-eastern Asia",
+        "country": "SG",
+        "state": null,
+        "city": "Singapore",
+        "asn": 18106,
+        "longitude": 103.85,
+        "latitude": 1.29,
+        "network": "ViewQwest",
+        "tags": [
+          "eyeball-network"
+        ],
+        "resolvers": [
+          "private",
+          "private"
+        ]
+      },
+      "result": {
+        "status": "finished",
+        "resolvedAddress": "218.64.194.16",
+        "headers": {
+          "server": "nginx/1.31.3",
+          "date": "Wed, 07 Oct 2026 09:51:46 GMT",
+          "content-type": "text/html; charset=utf-8",
+          "transfer-encoding": "chunked",
+          "connection": "close",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "x-frame-options": "DENY",
+          "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
+          "cache-control": "no-cache"
+        },
+        "rawHeaders": "Server: nginx/1.31.3\nDate: Wed, 07 Oct 2026 09:51:46 GMT\nContent-Type: text/html; charset=utf-8\nTransfer-Encoding: chunked\nConnection: close\nX-Content-Type-Options: nosniff\nReferrer-Policy: no-referrer\nX-Frame-Options: DENY\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'\nCache-Control: no-cache",
+        "rawBody": "<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"/><meta name=\"robots\" content=\"noindex,nofollow\"/><meta name=\"description\" content=\"西安的家，两层方案、实时尺寸、立面三维与设计交底。\"/><title>西安的家 · 空间研究室</title><link rel=\"icon\" href=\"/xian-home/favicon.svg\" type=\"image/svg+xml\"/>  <script type=\"module\" crossorigin src=\"/xian-home/assets/index-BxpMhwyC.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/xian-home/assets/index-Bce7JxEA.css\">\n</head><body><div id=\"root\"><p style=\"padding:40px;font-family:'Microsoft YaHei'\">正在打开空间研究室…</p></div></body></html>\n",
+        "rawOutput": "HTTP/1.1 200\nServer: nginx/1.31.3\nDate: Wed, 07 Oct 2026 09:51:46 GMT\nContent-Type: text/html; charset=utf-8\nTransfer-Encoding: chunked\nConnection: close\nX-Content-Type-Options: nosniff\nReferrer-Policy: no-referrer\nX-Frame-Options: DENY\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'\nCache-Control: no-cache\n\n<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"/><meta name=\"robots\" content=\"noindex,nofollow\"/><meta name=\"description\" content=\"西安的家，两层方案、实时尺寸、立面三维与设计交底。\"/><title>西安的家 · 空间研究室</title><link rel=\"icon\" href=\"/xian-home/favicon.svg\" type=\"image/svg+xml\"/>  <script type=\"module\" crossorigin src=\"/xian-home/assets/index-BxpMhwyC.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/xian-home/assets/index-Bce7JxEA.css\">\n</head><body><div id=\"root\"><p style=\"padding:40px;font-family:'Microsoft YaHei'\">正在打开空间研究室…</p></div></body></html>\n",
+        "truncated": false,
+        "statusCode": 200,
+        "statusCodeName": "OK",
+        "timings": {
+          "total": 5873,
+          "dns": 1,
+          "tcp": 1171,
+          "tls": 4530,
+          "firstByte": 170,
+          "download": 1
+        },
+        "tls": {
+          "authorized": true,
+          "protocol": "TLSv1.3",
+          "cipherName": "TLS_AES_256_GCM_SHA384",
+          "createdAt": "2026-08-03T00:33:06.000Z",
+          "expiresAt": "2026-11-01T00:33:05.000Z",
+          "issuer": {
+            "C": "US",
+            "O": "Let's Encrypt",
+            "CN": "YE2"
+          },
+          "subject": {
+            "CN": "jmryqyx.cn",
+            "alt": "DNS:jmryqyx.cn, DNS:www.jmryqyx.cn"
+          },
+          "keyType": "EC",
+          "keyBits": 256,
+          "serialNumber": "05:E6:D2:2A:CE:D3:9D:9A:C1:AA:2E:85:ED:5A:AB:6E:D8:8F",
+          "fingerprint256": "9F:0B:E6:E8:1F:4B:7C:B7:D1:29:C9:D3:0D:63:FE:4E:B8:BB:23:9B:C2:9A:EB:5E:73:B1:3E:FC:65:0E:F5:39",
+          "publicKey": "04:8F:54:63:CA:B8:78:B7:0A:54:C6:84:85:90:91:FD:FD:C9:E0:9A:6F:3C:79:3C:29:1F:CE:92:E2:18:16:78:47:63:E8:1B:9A:79:28:84:AA:BA:78:7D:CC:26:F0:76:11:BC:B1:43:29:23:56:C4:5E:39:23:0B:BC:A3:6E:77:0E"
+        }
+      }
+    },
+    {
+      "probe": {
+        "continent": "AS",
+        "region": "South-eastern Asia",
+        "country": "SG",
+        "state": null,
+        "city": "Singapore",
+        "asn": 56300,
+        "longitude": 103.85,
+        "latitude": 1.29,
+        "network": "MYREPUBLIC",
+        "tags": [
+          "eyeball-network",
+          "u-ricky840:hey"
+        ],
+        "resolvers": [
+          "101.100.188.23",
+          "103.7.200.10"
+        ]
+      },
+      "result": {
+        "status": "finished",
+        "resolvedAddress": "218.64.194.16",
+        "headers": {
+          "server": "nginx/1.31.3",
+          "date": "Wed, 07 Oct 2026 09:51:41 GMT",
+          "content-type": "text/html; charset=utf-8",
+          "transfer-encoding": "chunked",
+          "connection": "close",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "x-frame-options": "DENY",
+          "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
+          "cache-control": "no-cache"
+        },
+        "rawHeaders": "Server: nginx/1.31.3\nDate: Wed, 07 Oct 2026 09:51:41 GMT\nContent-Type: text/html; charset=utf-8\nTransfer-Encoding: chunked\nConnection: close\nX-Content-Type-Options: nosniff\nReferrer-Policy: no-referrer\nX-Frame-Options: DENY\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'\nCache-Control: no-cache",
+        "rawBody": "<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"/><meta name=\"robots\" content=\"noindex,nofollow\"/><meta name=\"description\" content=\"西安的家，两层方案、实时尺寸、立面三维与设计交底。\"/><title>西安的家 · 空间研究室</title><link rel=\"icon\" href=\"/xian-home/favicon.svg\" type=\"image/svg+xml\"/>  <script type=\"module\" crossorigin src=\"/xian-home/assets/index-BxpMhwyC.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/xian-home/assets/index-Bce7JxEA.css\">\n</head><body><div id=\"root\"><p style=\"padding:40px;font-family:'Microsoft YaHei'\">正在打开空间研究室…</p></div></body></html>\n",
+        "rawOutput": "HTTP/1.1 200\nServer: nginx/1.31.3\nDate: Wed, 07 Oct 2026 09:51:41 GMT\nContent-Type: text/html; charset=utf-8\nTransfer-Encoding: chunked\nConnection: close\nX-Content-Type-Options: nosniff\nReferrer-Policy: no-referrer\nX-Frame-Options: DENY\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'\nCache-Control: no-cache\n\n<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"/><meta name=\"robots\" content=\"noindex,nofollow\"/><meta name=\"description\" content=\"西安的家，两层方案、实时尺寸、立面三维与设计交底。\"/><title>西安的家 · 空间研究室</title><link rel=\"icon\" href=\"/xian-home/favicon.svg\" type=\"image/svg+xml\"/>  <script type=\"module\" crossorigin src=\"/xian-home/assets/index-BxpMhwyC.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/xian-home/assets/index-Bce7JxEA.css\">\n</head><body><div id=\"root\"><p style=\"padding:40px;font-family:'Microsoft YaHei'\">正在打开空间研究室…</p></div></body></html>\n",
+        "truncated": false,
+        "statusCode": 200,
+        "statusCodeName": "OK",
+        "timings": {
+          "total": 874,
+          "dns": 7,
+          "tcp": 258,
+          "tls": 338,
+          "firstByte": 271,
+          "download": 0
+        },
+        "tls": {
+          "authorized": true,
+          "protocol": "TLSv1.3",
+          "cipherName": "TLS_AES_256_GCM_SHA384",
+          "createdAt": "2026-08-03T00:33:06.000Z",
+          "expiresAt": "2026-11-01T00:33:05.000Z",
+          "issuer": {
+            "C": "US",
+            "O": "Let's Encrypt",
+            "CN": "YE2"
+          },
+          "subject": {
+            "CN": "jmryqyx.cn",
+            "alt": "DNS:jmryqyx.cn, DNS:www.jmryqyx.cn"
+          },
+          "keyType": "EC",
+          "keyBits": 256,
+          "serialNumber": "05:E6:D2:2A:CE:D3:9D:9A:C1:AA:2E:85:ED:5A:AB:6E:D8:8F",
+          "fingerprint256": "9F:0B:E6:E8:1F:4B:7C:B7:D1:29:C9:D3:0D:63:FE:4E:B8:BB:23:9B:C2:9A:EB:5E:73:B1:3E:FC:65:0E:F5:39",
+          "publicKey": "04:8F:54:63:CA:B8:78:B7:0A:54:C6:84:85:90:91:FD:FD:C9:E0:9A:6F:3C:79:3C:29:1F:CE:92:E2:18:16:78:47:63:E8:1B:9A:79:28:84:AA:BA:78:7D:CC:26:F0:76:11:BC:B1:43:29:23:56:C4:5E:39:23:0B:BC:A3:6E:77:0E"
+        }
+      }
+    }
+  ]
+}

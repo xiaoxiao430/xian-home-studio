@@ -1,0 +1,22 @@
+{
+  "sentAt": "2026-10-07T09:51:46.583Z",
+  "request": {
+    "type": "http",
+    "target": "jmryqyx.cn",
+    "locations": "2M0oVzQgsyMffTmgc00021GwB",
+    "timeout": 30,
+    "measurementOptions": {
+      "protocol": "HTTPS",
+      "port": 443,
+      "request": {
+        "path": "/xian-home/assets/index-BxpMhwyC.js",
+        "method": "GET"
+      }
+    }
+  },
+  "status": 202,
+  "response": {
+    "id": "2GKrPFvFaOA8ToBqW00021GwB",
+    "probesCount": 7
+  }
+}

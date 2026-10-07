@@ -3,9 +3,12 @@ import {validateMeasurementData} from './measurement-model';
 export type Kind='wall'|'furniture'|'opening'|'zone'|'stair';
 export type Structural='candidate'|'unknown'|'nonload'|'confirmed';
 export type Rect={x:number;y:number;w:number;h:number};
-export type Piece=Rect & {id:string;name:string;type:Kind;rotation:number;structural?:Structural;source?:string;svg?:string;baseW?:number;baseH?:number;color?:string;original?:Rect;locked?:boolean;room?:string;visible?:boolean;openingKind?:'window'|'door'|'opening';parts?:Part[];usage?:Usage;hostWallIds?:string[];apertureOriginal?:Rect&{rotation:number};};
+export type DimensionSource='drawing'|'measured'|'design'|'provisional';
+export type CabinetColumn={width:number;shelves:number;drawers:number;open:boolean;hinge:'left'|'right'|'none'};
+export type Cabinet={columns:CabinetColumn[];plinthMm:number;topGapMm:number;doorOpen:boolean};
+export type Piece=Rect & {id:string;name:string;type:Kind;rotation:number;structural?:Structural;source?:string;svg?:string;baseW?:number;baseH?:number;color?:string;original?:Rect;locked?:boolean;room?:string;visible?:boolean;openingKind?:'window'|'door'|'opening';parts?:Part[];usage?:Usage;hostWallIds?:string[];apertureOriginal?:Rect&{rotation:number};heightMm?:number;elevationMm?:number;dimensionSource?:DimensionSource;cabinet?:Cabinet;groupId?:string;partHeightsMm?:Record<string,number>;islandWorkLengthMm?:number;architecturalKind?:'beam'|'ceiling';};
 export type Room=Rect & {id:string;name:string;};
-export type Floor={id:string;name:string;outline:number[][];originalOutline:number[][];pieces:Piece[];rooms:Room[];source:string;note:string;balconyTopology?:{start:number;end:number;cutY:number};measurements?:MeasureSpec[];routes?:RouteSpec[];regions?:RegionSpec[];};
+export type Floor={id:string;name:string;outline:number[][];originalOutline:number[][];pieces:Piece[];rooms:Room[];source:string;note:string;balconyTopology?:{start:number;end:number;cutY:number};measurements?:MeasureSpec[];routes?:RouteSpec[];regions?:RegionSpec[];ceilingHeightMm?:number;heightSource?:DimensionSource;};
 export type Material={style:string;wood:string;stone:string;wall:string;floor:string;light:string;notes:string;};
 export type State={version:2|3;floors:Floor[];materials:Record<string,Material>;warnings:string[];};
 export type Reference={id:string;floor_id:string;module:string;name:string;note:string;url:string;created_at:string;};
@@ -27,11 +30,16 @@ export function validateState(v:unknown):v is State{
  if(new Set(s.floors.map(f=>f?.id)).size!==2||!s.floors.every(f=>f&&['f1','f2'].includes(f.id)))return false;
  for(const key of ['f1','f2']){const m=s.materials[key];if(!m||!['style','wood','stone','wall','floor','light','notes'].every(k=>text((m as any)[k],4000))||!['wood','stone','wall','floor'].every(k=>/^#[0-9a-fA-F]{6}$/.test((m as any)[k])))return false;}
  const allIds=new Set<string>();
- return s.floors.every(f=>text(f.name)&&text(f.source,1000)&&text(f.note,3000)&&points(f.outline)&&points(f.originalOutline)&&Array.isArray(f.rooms)&&f.rooms.length<100&&f.rooms.every(r=>r&&rect(r)&&text(r.id)&&text(r.name))&&Array.isArray(f.pieces)&&f.pieces.length<600&&f.pieces.every(p=>{
+ return s.floors.every(f=>text(f.name)&&text(f.source,1000)&&text(f.note,3000)&&points(f.outline)&&points(f.originalOutline)&&(f.ceilingHeightMm===undefined||num(f.ceilingHeightMm)&&f.ceilingHeightMm>0&&f.ceilingHeightMm<=20000)&&(f.heightSource===undefined||['drawing','measured','design','provisional'].includes(f.heightSource))&&Array.isArray(f.rooms)&&f.rooms.length<100&&f.rooms.every(r=>r&&rect(r)&&text(r.id)&&text(r.name))&&Array.isArray(f.pieces)&&f.pieces.length<600&&f.pieces.every(p=>{
  if(!p||!['wall','furniture','opening','zone','stair'].includes(p.type)||!text(p.id)||!p.id||allIds.has(p.id)||!text(p.name)||!rect(p)||!num(p.rotation)||p.rotation>360||p.rotation<-360)return false;allIds.add(p.id);
  if(p.original&&!rect(p.original))return false;if(p.structural&&!['candidate','confirmed','unknown','nonload'].includes(p.structural))return false;
  if(p.svg!==undefined&&(typeof p.svg!=='string'||!safeSvg(p.svg)||!num(p.baseW)||!num(p.baseH)||p.baseW!<=0||p.baseH!<=0))return false;
  if(p.locked!==undefined&&typeof p.locked!=='boolean'||p.visible!==undefined&&typeof p.visible!=='boolean')return false;
+ if(p.heightMm!==undefined&&(!num(p.heightMm)||p.heightMm<0||p.heightMm>20000)||p.elevationMm!==undefined&&(!num(p.elevationMm)||p.elevationMm<0||p.elevationMm>20000))return false;
+ if(p.dimensionSource!==undefined&&!['drawing','measured','design','provisional'].includes(p.dimensionSource)||p.groupId!==undefined&&(!text(p.groupId)||!p.groupId))return false;
+ if(p.architecturalKind!==undefined&&!['beam','ceiling'].includes(p.architecturalKind)||p.islandWorkLengthMm!==undefined&&(!num(p.islandWorkLengthMm)||p.islandWorkLengthMm<=0||p.islandWorkLengthMm>=p.w))return false;
+ if(p.partHeightsMm!==undefined&&(!p.partHeightsMm||typeof p.partHeightsMm!=='object'||Array.isArray(p.partHeightsMm)||Object.entries(p.partHeightsMm).some(([id,height])=>!text(id)||!num(height)||height<0||height>20000)))return false;
+ if(p.cabinet!==undefined){const c=p.cabinet;if(!c||!Array.isArray(c.columns)||!c.columns.length||c.columns.length>50||!c.columns.every(col=>col&&num(col.width)&&col.width>0&&Number.isInteger(col.shelves)&&col.shelves>=0&&col.shelves<=100&&Number.isInteger(col.drawers)&&col.drawers>=0&&col.drawers<=50&&typeof col.open==='boolean'&&['left','right','none'].includes(col.hinge))||Math.abs(c.columns.reduce((sum,col)=>sum+col.width,0)-p.w)>1||!num(c.plinthMm)||c.plinthMm<0||!num(c.topGapMm)||c.topGapMm<0||typeof c.doorOpen!=='boolean'||p.heightMm!==undefined&&c.plinthMm+c.topGapMm>=p.heightMm)return false;}
  return true;
  }));
 }

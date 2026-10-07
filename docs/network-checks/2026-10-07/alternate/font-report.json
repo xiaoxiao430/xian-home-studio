@@ -1,0 +1,172 @@
+{
+  "id": "20g4xTB7Un5LbRAJH00021Gw8",
+  "type": "http",
+  "status": "finished",
+  "createdAt": "2026-10-07T09:48:09.098Z",
+  "updatedAt": "2026-10-07T09:48:09.713Z",
+  "target": "jmryqyx.cn",
+  "timeout": 30,
+  "probesCount": 2,
+  "locations": [
+    {
+      "country": "CN",
+      "city": "Nanjing",
+      "asn": 4134
+    },
+    {
+      "country": "CN",
+      "city": "Changsha",
+      "asn": 4837
+    }
+  ],
+  "measurementOptions": {
+    "port": 443,
+    "request": {
+      "path": "/xian-home/fonts/yahei-full.woff2"
+    }
+  },
+  "results": [
+    {
+      "probe": {
+        "continent": "AS",
+        "region": "Eastern Asia",
+        "country": "CN",
+        "state": null,
+        "city": "Nanjing",
+        "asn": 4134,
+        "longitude": 118.78,
+        "latitude": 32.06,
+        "network": "Chinanet Backbone",
+        "tags": [
+          "datacenter-network",
+          "u-ZeokZqom"
+        ],
+        "resolvers": [
+          "8.8.8.8",
+          "114.114.114.114"
+        ]
+      },
+      "result": {
+        "status": "finished",
+        "resolvedAddress": "218.64.194.16",
+        "headers": {
+          "server": "nginx/1.31.3",
+          "date": "Wed, 07 Oct 2026 09:48:09 GMT",
+          "content-type": "font/woff2",
+          "connection": "close",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "x-frame-options": "DENY",
+          "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
+          "cache-control": "public, max-age=3600"
+        },
+        "rawHeaders": "Server: nginx/1.31.3\nDate: Wed, 07 Oct 2026 09:48:09 GMT\nContent-Type: font/woff2\nConnection: close\nX-Content-Type-Options: nosniff\nReferrer-Policy: no-referrer\nX-Frame-Options: DENY\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'\nCache-Control: public, max-age=3600",
+        "rawBody": null,
+        "rawOutput": "HTTP/1.1 200\nServer: nginx/1.31.3\nDate: Wed, 07 Oct 2026 09:48:09 GMT\nContent-Type: font/woff2\nConnection: close\nX-Content-Type-Options: nosniff\nReferrer-Policy: no-referrer\nX-Frame-Options: DENY\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'\nCache-Control: public, max-age=3600",
+        "truncated": false,
+        "statusCode": 200,
+        "statusCodeName": "OK",
+        "timings": {
+          "total": 293,
+          "dns": 201,
+          "tcp": 25,
+          "tls": 40,
+          "firstByte": 27,
+          "download": 0
+        },
+        "tls": {
+          "authorized": true,
+          "protocol": "TLSv1.3",
+          "cipherName": "TLS_AES_256_GCM_SHA384",
+          "createdAt": "2026-08-03T00:33:06.000Z",
+          "expiresAt": "2026-11-01T00:33:05.000Z",
+          "issuer": {
+            "C": "US",
+            "O": "Let's Encrypt",
+            "CN": "YE2"
+          },
+          "subject": {
+            "CN": "jmryqyx.cn",
+            "alt": "DNS:jmryqyx.cn, DNS:www.jmryqyx.cn"
+          },
+          "keyType": "EC",
+          "keyBits": 256,
+          "serialNumber": "05:E6:D2:2A:CE:D3:9D:9A:C1:AA:2E:85:ED:5A:AB:6E:D8:8F",
+          "fingerprint256": "9F:0B:E6:E8:1F:4B:7C:B7:D1:29:C9:D3:0D:63:FE:4E:B8:BB:23:9B:C2:9A:EB:5E:73:B1:3E:FC:65:0E:F5:39",
+          "publicKey": "04:8F:54:63:CA:B8:78:B7:0A:54:C6:84:85:90:91:FD:FD:C9:E0:9A:6F:3C:79:3C:29:1F:CE:92:E2:18:16:78:47:63:E8:1B:9A:79:28:84:AA:BA:78:7D:CC:26:F0:76:11:BC:B1:43:29:23:56:C4:5E:39:23:0B:BC:A3:6E:77:0E"
+        }
+      }
+    },
+    {
+      "probe": {
+        "continent": "AS",
+        "region": "Eastern Asia",
+        "country": "CN",
+        "state": null,
+        "city": "Changsha",
+        "asn": 4837,
+        "longitude": 112.97,
+        "latitude": 28.2,
+        "network": "CHINA UNICOM China169 Backbone",
+        "tags": [
+          "eyeball-network",
+          "u-powerfullz"
+        ],
+        "resolvers": [
+          "private",
+          "private"
+        ]
+      },
+      "result": {
+        "status": "finished",
+        "resolvedAddress": "218.64.194.16",
+        "headers": {
+          "server": "nginx/1.31.3",
+          "date": "Wed, 07 Oct 2026 09:48:09 GMT",
+          "content-type": "font/woff2",
+          "connection": "close",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "x-frame-options": "DENY",
+          "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
+          "cache-control": "public, max-age=3600"
+        },
+        "rawHeaders": "Server: nginx/1.31.3\nDate: Wed, 07 Oct 2026 09:48:09 GMT\nContent-Type: font/woff2\nConnection: close\nX-Content-Type-Options: nosniff\nReferrer-Policy: no-referrer\nX-Frame-Options: DENY\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'\nCache-Control: public, max-age=3600",
+        "rawBody": null,
+        "rawOutput": "HTTP/1.1 200\nServer: nginx/1.31.3\nDate: Wed, 07 Oct 2026 09:48:09 GMT\nContent-Type: font/woff2\nConnection: close\nX-Content-Type-Options: nosniff\nReferrer-Policy: no-referrer\nX-Frame-Options: DENY\nContent-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'\nCache-Control: public, max-age=3600",
+        "truncated": false,
+        "statusCode": 200,
+        "statusCodeName": "OK",
+        "timings": {
+          "total": 72,
+          "dns": 3,
+          "tcp": 18,
+          "tls": 31,
+          "firstByte": 20,
+          "download": 0
+        },
+        "tls": {
+          "authorized": true,
+          "protocol": "TLSv1.3",
+          "cipherName": "TLS_AES_256_GCM_SHA384",
+          "createdAt": "2026-08-03T00:33:06.000Z",
+          "expiresAt": "2026-11-01T00:33:05.000Z",
+          "issuer": {
+            "C": "US",
+            "O": "Let's Encrypt",
+            "CN": "YE2"
+          },
+          "subject": {
+            "CN": "jmryqyx.cn",
+            "alt": "DNS:jmryqyx.cn, DNS:www.jmryqyx.cn"
+          },
+          "keyType": "EC",
+          "keyBits": 256,
+          "serialNumber": "05:E6:D2:2A:CE:D3:9D:9A:C1:AA:2E:85:ED:5A:AB:6E:D8:8F",
+          "fingerprint256": "9F:0B:E6:E8:1F:4B:7C:B7:D1:29:C9:D3:0D:63:FE:4E:B8:BB:23:9B:C2:9A:EB:5E:73:B1:3E:FC:65:0E:F5:39",
+          "publicKey": "04:8F:54:63:CA:B8:78:B7:0A:54:C6:84:85:90:91:FD:FD:C9:E0:9A:6F:3C:79:3C:29:1F:CE:92:E2:18:16:78:47:63:E8:1B:9A:79:28:84:AA:BA:78:7D:CC:26:F0:76:11:BC:B1:43:29:23:56:C4:5E:39:23:0B:BC:A3:6E:77:0E"
+        }
+      }
+    }
+  ]
+}

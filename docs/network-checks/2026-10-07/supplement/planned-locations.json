@@ -1,0 +1,14 @@
+[
+  {
+    "country": "CN",
+    "city": "Xi'an",
+    "asn": 4134,
+    "limit": 1
+  },
+  {
+    "country": "CN",
+    "city": "Wuhan",
+    "asn": 4837,
+    "limit": 1
+  }
+]

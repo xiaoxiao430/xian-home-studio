@@ -1,0 +1,46 @@
+{
+  "id": "2CJFrt16HxKWzYzVv00021Gw8",
+  "resource": "worker",
+  "name": "通道 Worker",
+  "path": "/xian-home/route-worker.js",
+  "method": "GET",
+  "round": 1,
+  "createdAt": "2026-10-07T09:48:06.368Z",
+  "status": "finished",
+  "results": [
+    {
+      "country": "CN",
+      "city": "Nanjing",
+      "asn": 4134,
+      "network": "Chinanet Backbone",
+      "status": "finished",
+      "statusCode": 200,
+      "success": true,
+      "typeMatches": true,
+      "bodyMatches": true,
+      "contentType": "text/javascript; charset=utf-8",
+      "contentLength": null,
+      "remoteAddress": "218.64.194.16",
+      "totalMs": 367,
+      "error": null,
+      "bodyPrefix": "var te=Object.create;var zt=Object.defineProperty;var ee=Object.getOwnPropertyDescriptor;var ne=Object.getOwnPropertyNames;var ie=Object.getPrototypeOf,re=Object.prototype.hasOwnProperty;var oe=(w,v)=>()=>(v||w((v={exports:{}}).exports,v),v.exports);var se=(w,v,x,m)=>{if(v&&typeof v==\"object\"||typeof v==\"function\")for(let k of ne(v))!re.call(w,k)&&k!==x&&zt(w,k,{get:()=>v[k],enumerable:!(m=ee(v,k))||m.enumerable});return w};var le=(w,v,x)=>(x=w!=null?te(ie(w)):{},se(v||!w||!w.__esModule?zt(x,\"default\",{value:w,enumerable:!0}):x,w));var Bt=oe((It,Pt)=>{(function(w,v){typeof It==\"object\"&&typeof"
+    },
+    {
+      "country": "CN",
+      "city": "Changsha",
+      "asn": 4837,
+      "network": "CHINA UNICOM China169 Backbone",
+      "status": "finished",
+      "statusCode": 200,
+      "success": true,
+      "typeMatches": true,
+      "bodyMatches": true,
+      "contentType": "text/javascript; charset=utf-8",
+      "contentLength": null,
+      "remoteAddress": "218.64.194.16",
+      "totalMs": 85,
+      "error": null,
+      "bodyPrefix": "var te=Object.create;var zt=Object.defineProperty;var ee=Object.getOwnPropertyDescriptor;var ne=Object.getOwnPropertyNames;var ie=Object.getPrototypeOf,re=Object.prototype.hasOwnProperty;var oe=(w,v)=>()=>(v||w((v={exports:{}}).exports,v),v.exports);var se=(w,v,x,m)=>{if(v&&typeof v==\"object\"||typeof v==\"function\")for(let k of ne(v))!re.call(w,k)&&k!==x&&zt(w,k,{get:()=>v[k],enumerable:!(m=ee(v,k))||m.enumerable});return w};var le=(w,v,x)=>(x=w!=null?te(ie(w)):{},se(v||!w||!w.__esModule?zt(x,\"default\",{value:w,enumerable:!0}):x,w));var Bt=oe((It,Pt)=>{(function(w,v){typeof It==\"object\"&&typeof"
+    }
+  ]
+}
