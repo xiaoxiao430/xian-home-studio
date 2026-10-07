@@ -1,8 +1,11 @@
 import {clone,validateState,type State,type Floor,type Piece,type DimensionSource} from './model';
 import {migrateState} from './measurement-model';
 import {patchGroupedPiece,refreshIslandParts} from './scene-edit';
+import {applyMasterSuite} from './master-suite';
+import {configureLinkedStairs,syncLinkedStairChange} from './stairs';
 
-export type Variant={id:string;name:string;state:State;updatedAt:string;layoutRevision:number};
+export type SuiteStudy={baseVariantId:string;baseLayoutRevision:number;makeup:'dry'|'window'};
+export type Variant={id:string;name:string;state:State;updatedAt:string;layoutRevision:number;suiteStudy?:SuiteStudy};
 export type Asset={id:string;name:string;kind:'drawing'|'site'|'reference'|'render'|'construction';space:string;floorId:string;variantId?:string;objectId?:string;scope:string;note:string;mime:string;createdAt:string;url?:string;size?:number;sha256?:string};
 export type Issue={id:string;title:string;note:string;floorId:string;variantId?:string;objectId?:string;status:'open'|'resolved';createdAt:string};
 export type Render={id:string;assetId:string;variantId:string;floorId:string;layoutRevision:number;createdAt:string;stale:boolean;note:string};
@@ -12,6 +15,7 @@ export type Operation=
  |{type:'patchPiece';variantId:string;floorId:string;objectId:string;patch:Partial<Piece>;linked?:boolean}
  |{type:'cloneVariant';variantId:string;newId?:string;name?:string}
  |{type:'renameVariant';variantId:string;name:string}
+ |{type:'createMasterStudies';variantIds:string[]}
  |{type:'updateAsset';asset:Asset}
  |{type:'addIssue';issue:Issue}
  |{type:'updateIssue';issueId:string;patch:Partial<Issue>}
@@ -21,6 +25,19 @@ export type Operation=
 const now=()=>new Date().toISOString();
 const id=()=>globalThis.crypto.randomUUID();
 const sources:DimensionSource[]=['drawing','measured','design','provisional'];
+
+export function applyItalianPalette(state:State):State{
+ const next=clone(state);
+ for(const floor of next.floors){
+  next.materials[floor.id]={style:'意式极简 · 深咖木作 · 局部奢石',wood:'#594335',stone:'#d6c8b4',wall:'#eee6d9',floor:'#c7b5a0',light:'暖光氛围；化妆镜面部功能照明可调色温',notes:'奶咖柔光砖、温暖浅墙、木饰面与深咖柜体。奢石用于餐岛、洗面台或局部重点面；纹理与色板待样品确认。沙发选柔软靠包和圆润边缘，实际坐躺舒适度待试坐。'};
+  for(const piece of floor.pieces)if(piece.type==='furniture'){
+   if(/沙发/.test(piece.name))piece.color='#d1c2ae';
+   else if(piece.cabinet||/柜/.test(piece.name))piece.color='#594335';
+   else if(/厨房|餐岛|洗面|台盆/.test(piece.name))piece.color='#d6c8b4';
+  }
+ }
+ return next;
+}
 
 export function defaultPieceHeight(p:Piece,ceiling=3000){
  if(p.type==='zone')return 10;
@@ -139,6 +156,7 @@ export function validateProject(value:unknown):value is Project{
   const p=value as unknown as Project;
   if(p.version!==4||!ident(p.id)||!text(p.name)||!p.name.trim()||!Array.isArray(p.variants)||!p.variants.length||p.variants.length>30||!Array.isArray(p.assets)||p.assets.length>3000||!Array.isArray(p.issues)||p.issues.length>10000||!Array.isArray(p.renders)||p.renders.length>2000)return false;
   if(!p.variants.every(v=>record(v)&&ident(v.id)&&text(v.name)&&!!v.name.trim()&&stamp(v.updatedAt)&&Number.isInteger(v.layoutRevision)&&v.layoutRevision>=0&&validateState(v.state)&&v.state.floors.every(f=>f.ceilingHeightMm!==undefined&&sources.includes(f.heightSource!)&&f.pieces.every(o=>o.heightMm!==undefined&&o.elevationMm!==undefined&&sources.includes(o.dimensionSource!)))))return false;
+  if(!p.variants.every(v=>v.suiteStudy===undefined||record(v.suiteStudy)&&ident(v.suiteStudy.baseVariantId)&&Number.isInteger(v.suiteStudy.baseLayoutRevision)&&v.suiteStudy.baseLayoutRevision>=0&&['dry','window'].includes(v.suiteStudy.makeup)))return false;
   const hasVariant=(variantId:unknown)=>variantId===undefined||p.variants.some(v=>v.id===variantId);
   if(!p.assets.every(a=>record(a)&&ident(a.id)&&text(a.name,500)&&['drawing','site','reference','render','construction'].includes(a.kind)&&text(a.space)&&floorId(a.floorId)&&hasVariant(a.variantId)&&(a.objectId===undefined||text(a.objectId))&&text(a.scope)&&text(a.note,30000)&&text(a.mime,200)&&stamp(a.createdAt)&&(a.url===undefined||text(a.url,3000)&&!/^\s*(?:javascript|data|vbscript):/i.test(a.url))&&(a.size===undefined||Number.isSafeInteger(a.size)&&a.size>=0)&&(a.sha256===undefined||/^[a-f\d]{64}$/i.test(a.sha256))))return false;
   if(!p.issues.every(i=>record(i)&&ident(i.id)&&text(i.title,500)&&!!i.title.trim()&&text(i.note,30000)&&floorId(i.floorId)&&hasVariant(i.variantId)&&(i.objectId===undefined||text(i.objectId))&&['open','resolved'].includes(i.status)&&stamp(i.createdAt)))return false;
@@ -159,8 +177,29 @@ export function applyOperation(input:Project,op:Operation):Project{
  const variant=(variantId:string)=>{const v=project.variants.find(v=>v.id===variantId);if(!v)throw Error('未找到方案');return v;};
  const changed=(v:Variant)=>{v.updatedAt=timestamp;v.layoutRevision++;for(const render of project.renders)if(render.variantId===v.id)render.stale=true;};
  switch(op.type){
-  case 'replaceVariant':{if(!validateState(op.state))throw Error('布局数据无效');const v=variant(op.variantId);v.state=augmentState(op.state);changed(v);break;}
-  case 'patchPiece':{const v=variant(op.variantId),floor=v.state.floors.find(f=>f.id===op.floorId);if(!floor||!record(op.patch))throw Error('楼层或对象修改无效');patchGroupedPiece(floor,op.objectId,op.patch,op.linked!==false);changed(v);break;}
+  case 'replaceVariant':{if(!validateState(op.state))throw Error('布局数据无效');const v=variant(op.variantId);v.state=augmentState(syncLinkedStairChange(v.state,op.state));changed(v);break;}
+  case 'patchPiece':{const v=variant(op.variantId),previous=clone(v.state),floor=v.state.floors.find(f=>f.id===op.floorId);if(!floor||!record(op.patch))throw Error('楼层或对象修改无效');patchGroupedPiece(floor,op.objectId,op.patch,op.linked!==false);v.state=syncLinkedStairChange(previous,v.state);changed(v);break;}
+  case 'createMasterStudies':{
+   if(!Array.isArray(op.variantIds)||!op.variantIds.length||new Set(op.variantIds).size!==op.variantIds.length)throw Error('请选择不同的基础方案');
+   for(const sourceId of op.variantIds){const source=variant(sourceId);
+    for(const makeup of ['dry','window'] as const){
+     const newId=sourceId+'-suite-'+makeup;if(project.variants.some(v=>v.id===newId))throw Error('该基础方案已有两版主卧，原有研究稿没有被覆盖');
+     const label=makeup==='dry'?'干区化妆':'阳台化妆';
+     const state=augmentState(configureLinkedStairs(applyItalianPalette(applyMasterSuite(source.state,makeup)),{}));
+     project.variants.push({id:newId,name:source.name.replace(/ · .*/,'')+' · '+label,state,updatedAt:timestamp,layoutRevision:0,suiteStudy:{baseVariantId:sourceId,baseLayoutRevision:source.layoutRevision,makeup}});
+     for(const issue of input.issues.filter(i=>i.variantId===sourceId))project.issues.push({...clone(issue),id:id(),variantId:newId,createdAt:timestamp});
+     const notes=[
+      ['确认主卧套间拆改','图中拟拆墙及封门为方案意图；结构属性、原3.7㎡通往10㎡房间的门洞封闭、原0.8㎡并入主卧及保留卧室的独立出入由设计师核对。','f2'],
+      ['复测同一部楼梯的两层条件','需实际层高、楼板洞口、梁底净高、平台梯段、扶手及上下层入口。3000层高与踏步仅示意，扩大占地须连同过厅、中部饮水储物间入口、一楼通道复核。','all'],
+      ['确认卫浴与照顾孩子的操作空间','双台盆、大浴缸、独立淋浴和可关门如厕空间使用方案外尺寸；浴缸扶持、清洁与照看孩子的操作范围需结合选型。排水、楼板承载、防水、通风及检修由专业设计深化。','f2'],
+      ['确认公共饮水与杂物收纳','中部小间改为公共饮水与储物，保留公共入口及既有出入关系；原0.8㎡全部并入主卧。预留净水管、电源、过滤组件和检修，设备型号、通风及接水盘排水未确认，不是已测管线点位。','f2'],
+      ['确认材质与实际坐感','深咖木作、奶咖柔光砖与局部奢石需现场对照样品。暖光与化妆面部功能灯分开控制；柔软沙发需要试坐、试躺。','all'],
+     ];
+     for(const [title,note,floorId] of notes)project.issues.push({id:id(),title,note,floorId,variantId:newId,status:'open',createdAt:timestamp});
+    }
+   }
+   break;
+  }
   case 'cloneVariant':{const source=variant(op.variantId),copy=clone(source);copy.id=op.newId||id();if(project.variants.some(v=>v.id===copy.id))throw Error('方案标识已存在');copy.name=op.name||source.name+' · 副本';copy.updatedAt=timestamp;project.variants.push(copy);for(const issue of input.issues.filter(i=>i.variantId===source.id))project.issues.push({...clone(issue),id:id(),variantId:copy.id,createdAt:timestamp});break;}
   case 'renameVariant':{const v=variant(op.variantId);v.name=op.name;v.updatedAt=timestamp;break;}
   case 'updateAsset':{const index=project.assets.findIndex(a=>a.id===op.asset?.id);if(index<0)project.assets.push(clone(op.asset));else project.assets[index]=clone(op.asset);break;}

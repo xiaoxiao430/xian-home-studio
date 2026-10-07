@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import {elevationItems,elevationSvgContent,pieceElevation,pieceHeight,sectionIntervals,spatialBriefSvg,spatialVolumes,spatialWarnings} from '../lib/brief-export';
-import {pointInRing,ringArea} from '../lib/geometry';
+import {elevationItems,elevationSvgContent,pieceElevation,pieceHeight,sectionIntervals,spatialBriefSvg,spatialFloorSlab,spatialVolumes,spatialWarnings} from '../lib/brief-export';
+import {pointInRing,pointInMulti,ringArea} from '../lib/geometry';
 import {rectRing} from '../lib/measurement-model';
 import type {Floor,Piece} from '../lib/model';
 
@@ -37,4 +37,24 @@ const exported=spatialBriefSvg({floor:{...base,pieces:[cabinet]},selected:'cabin
 const escaped=spatialBriefSvg({floor:{...base,name:'<img onerror="bad">',pieces:[]}});assert(!escaped.includes('<img'));assert(escaped.includes('&lt;img'));
 const roomExport=spatialBriefSvg({floor:{...base,pieces:[cabinet,l],rooms:[{id:'r',name:'设计讨论区域',x:0,y:0,w:800,h:900}]},roomName:'设计讨论区域',selected:'cabinet'});assert(roomExport.includes('交底圈选范围'));assert(roomExport.includes('不代表已实测的闭合房间'));assert(!roomExport.includes('书柜：宽'));assert(roomExport.includes('L 台面'));assert.throws(()=>spatialBriefSvg({floor:base,roomName:'不存在'}),/没有该空间/);
 const beam:Piece={id:'beam',name:'梁',type:'furniture',architecturalKind:'beam',x:0,y:0,w:4000,h:250,heightMm:350,elevationMm:2600,rotation:0};const bv=spatialVolumes({...base,pieces:[beam]})[0];assert.equal(bv.kind,'overhead');assert.equal(bv.bottom,2600);assert.equal(bv.top,2950);
-console.log('PASS spatial opening elevations, L/rotated/hole sections, cabinet operation, part heights and brief export');
+const stair:Piece={id:'f2-stairs',name:'楼梯',type:'stair',x:1000,y:2000,w:1830,h:2250,rotation:0};
+const upperFloor={...base,id:'f2',pieces:[stair]},lowerFloor={...base,id:'f1',pieces:[stair]},upper=spatialVolumes(upperFloor),lower=spatialVolumes(lowerFloor);
+assert(upper.some(v=>v.partId.startsWith('tread')&&v.top<0),'upper staircase descends below its local floor');
+assert.equal(Math.max(...upper.filter(v=>v.partId.startsWith('tread')).map(v=>v.top)),0,'upper arrival stops at floor datum');
+assert.equal(Math.max(...lower.filter(v=>v.partId.startsWith('tread')).map(v=>v.top)),3000,'same stair rises to upper floor from downstairs');
+assert(!pointInMulti([1800,2600],spatialFloorSlab(upperFloor)),'upper slab study shows the stair opening');
+assert(pointInMulti([1800,2600],spatialFloorSlab(lowerFloor)),'lower floor is not cut through');
+const stairElevation=elevationSvgContent({floor:upperFloor,selected:stair.id,focus:true});
+assert(stairElevation.viewBox[1]+stairElevation.viewBox[3]>2900,'downward flight fits within elevation viewport');
+assert(stairElevation.body.includes('本层地面以下'));assert(stairElevation.body.includes('待复测'));assert.equal(stair.stair,undefined,'legacy rendering does not mutate original scheme data');
+const tub:Piece={id:'f2-suite-tub',name:'大浴缸',type:'furniture',x:0,y:0,w:1800,h:800,heightMm:600,rotation:0};
+const tubVolumes=spatialVolumes({...base,pieces:[tub]});
+assert(tubVolumes.some(v=>v.partId==='tub-rim'&&v.polygon.length===2),'tub includes a true open well rather than solid block');
+const makeup:Piece={id:'f2-suite-makeup-desk',name:'坐式化妆台',type:'furniture',x:0,y:0,w:1000,h:550,heightMm:750,rotation:0};
+const makeupVolumes=spatialVolumes({...base,pieces:[makeup]});
+assert(!makeupVolumes.some(v=>v.bottom<400&&v.top>400&&pointInMulti([500,300],[v.polygon])),'seated makeup has real legroom below tabletop');
+const sofa:Piece={id:'sofa',name:'柔软沙发',type:'furniture',x:0,y:0,w:2600,h:950,heightMm:850,rotation:35};
+const sofaVolumes=spatialVolumes({...base,pieces:[sofa]});assert(sofaVolumes.some(v=>v.partId.includes('cushion')&&v.roundedMm));
+const lounger:Piece={id:'f2-suite-lounger',name:'软包躺椅',type:'furniture',x:0,y:0,w:700,h:1900,heightMm:700,rotation:0};
+const loungerVolumes=spatialVolumes({...base,pieces:[lounger]});assert(loungerVolumes.some(v=>v.partId==='lounger-cushion'&&v.roundedMm));assert.equal(Math.max(...loungerVolumes.map(v=>v.top)),700,'chaise padding preserves source overall height');assert(loungerVolumes.every(v=>v.polygon[0].every(([x,y])=>x>=0&&x<=700&&y>=0&&y<=1900)),'chaise details stay within the exact lying footprint');
+console.log('PASS spatial openings, true sections, cabinet states, exports, upper-floor stair cutout, tub well, makeup legroom and soft sofa');

@@ -1,0 +1,56 @@
+{
+  "sentAt": "2026-10-07T15:37:14.636Z",
+  "request": {
+    "type": "http",
+    "target": "jmryqyx.cn",
+    "locations": [
+      {
+        "country": "CN",
+        "asn": 4134,
+        "limit": 1,
+        "city": "Nanjing"
+      },
+      {
+        "country": "CN",
+        "asn": 17621,
+        "limit": 1,
+        "city": "Shanghai"
+      },
+      {
+        "country": "CN",
+        "asn": 9808,
+        "limit": 1,
+        "city": "Shanghai"
+      },
+      {
+        "country": "SG",
+        "asn": 4773,
+        "limit": 1
+      },
+      {
+        "country": "SG",
+        "asn": 18106,
+        "limit": 1
+      },
+      {
+        "country": "SG",
+        "asn": 56300,
+        "limit": 1
+      }
+    ],
+    "timeout": 30,
+    "measurementOptions": {
+      "protocol": "HTTPS",
+      "port": 443,
+      "request": {
+        "path": "/xian-home/",
+        "method": "GET"
+      }
+    }
+  },
+  "status": 202,
+  "response": {
+    "id": "28d3Xy7u0EnpkDKBz00021H1l",
+    "probesCount": 6
+  }
+}

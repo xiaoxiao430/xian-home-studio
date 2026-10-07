@@ -1,0 +1,46 @@
+[
+  {
+    "id": "homepage",
+    "name": "登录页",
+    "path": "/xian-home/",
+    "url": "https://jmryqyx.cn/xian-home/",
+    "method": "GET",
+    "status": 200,
+    "headers": {
+      "cache-control": "no-cache",
+      "connection": "keep-alive",
+      "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
+      "content-type": "text/html; charset=utf-8",
+      "date": "Wed, 07 Oct 2026 15:37:12 GMT",
+      "referrer-policy": "no-referrer",
+      "server": "nginx/1.31.3",
+      "transfer-encoding": "chunked",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY"
+    },
+    "sha256": "0ba06406dba6751f5c3c0eb9975f0a34c6410949676f63948fc92aed5e7c546a",
+    "bodyPrefix": "<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"/><meta name=\"robots\" content=\"noindex,nofollow\"/><meta name=\"description\" content=\"西安的家，两层方案、实时尺寸、立面三维与设计交底。\"/><title>西安的家 · 空间研究室</title><link rel=\"icon\" href=\"/xian-home/favicon.svg\" type=\"image/svg+xml\"/>  <script type=\"module\" crossorigin src=\"/xian-home/assets/index-DbGJmBi7.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/xian-home/assets/index-BuQ2H4Qm.css\">\n</head><body><div id=\"root\"><p style=\"padding:40px;font-family:'Microsoft "
+  },
+  {
+    "id": "javascript",
+    "name": "主 JavaScript",
+    "path": "/xian-home/assets/index-DbGJmBi7.js",
+    "url": "https://jmryqyx.cn/xian-home/assets/index-DbGJmBi7.js",
+    "method": "GET",
+    "status": 200,
+    "headers": {
+      "cache-control": "public, max-age=3600",
+      "connection": "keep-alive",
+      "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
+      "content-type": "text/javascript; charset=utf-8",
+      "date": "Wed, 07 Oct 2026 15:37:12 GMT",
+      "referrer-policy": "no-referrer",
+      "server": "nginx/1.31.3",
+      "transfer-encoding": "chunked",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY"
+    },
+    "sha256": "7fd8e9757a5125fa7eb22d8c37447ffc9284d9d93fc41372f37187816df267f3",
+    "bodyPrefix": "const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=[\"assets/OrbitControls-BujbYgHy.js\",\"assets/three.module-DlqJz16g.js\",\"assets/RoundedBoxGeometry-_5Z05Ezi.js\"])))=>i.map(i=>d[i]);\nvar e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=Object.getOwnPropertyNames,i=Object.getPrototypeOf,a=Object.prototype.hasOwnProperty,o=(e,t)=>()=>(t||(e((t={exports:{}}).exports,t),e=null),t.exports),s=(e,i,o,s)=>{if(i&&typeof i==`object`||typeof i==`function`)for(var c=r(i),l=0,u=c.length,d;l<u;l++)d=c[l],!a.call(e,d)&&d!==o&&t(e,d,{get:(e=>i[e]).bind(null,d),enumerable:!(s=n(i"
+  }
+]

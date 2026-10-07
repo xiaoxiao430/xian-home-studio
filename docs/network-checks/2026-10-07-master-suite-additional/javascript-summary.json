@@ -1,0 +1,63 @@
+{
+  "id": "2eed4tMc0oIS0NvyX00021H1T",
+  "resource": "javascript",
+  "name": "主 JavaScript",
+  "path": "/xian-home/assets/index-YPI5bBJs.js",
+  "method": "GET",
+  "round": 1,
+  "createdAt": "2026-10-07T15:19:20.004Z",
+  "status": "finished",
+  "results": [
+    {
+      "country": "CN",
+      "city": "Nanjing",
+      "asn": 4134,
+      "network": "Chinanet Backbone",
+      "status": "finished",
+      "statusCode": 200,
+      "success": true,
+      "typeMatches": true,
+      "bodyMatches": true,
+      "contentType": "text/javascript; charset=utf-8",
+      "contentLength": null,
+      "remoteAddress": "218.64.194.16",
+      "totalMs": 662,
+      "error": null,
+      "bodyPrefix": "const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=[\"assets/OrbitControls-BujbYgHy.js\",\"assets/three.module-DlqJz16g.js\",\"assets/RoundedBoxGeometry-_5Z05Ezi.js\"])))=>i.map(i=>d[i]);\nvar e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=Object.getOwnPropertyNames,i=Object.getPrototypeOf,a=Object.prototype.hasOwnProperty,o=(e,t)=>()=>(t||(e((t={exports:{}}).exports,t),e=null),t.exports),s=(e,i,o,s)=>{if(i&&typeof i==`object`||typeof i==`function`)for(var c=r(i),l=0,u=c.length,d;l<u;l++)d=c[l],!a.call(e,d)&&d!==o&&t(e,d,{get:(e=>i[e]).bind(null,d),enumerable:!(s=n(i"
+    },
+    {
+      "country": "CN",
+      "city": "Guilin",
+      "asn": 4134,
+      "network": "China Telecom",
+      "status": "finished",
+      "statusCode": 200,
+      "success": true,
+      "typeMatches": true,
+      "bodyMatches": true,
+      "contentType": "text/javascript; charset=utf-8",
+      "contentLength": null,
+      "remoteAddress": "218.64.194.16",
+      "totalMs": 170,
+      "error": null,
+      "bodyPrefix": "const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=[\"assets/OrbitControls-BujbYgHy.js\",\"assets/three.module-DlqJz16g.js\",\"assets/RoundedBoxGeometry-_5Z05Ezi.js\"])))=>i.map(i=>d[i]);\nvar e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=Object.getOwnPropertyNames,i=Object.getPrototypeOf,a=Object.prototype.hasOwnProperty,o=(e,t)=>()=>(t||(e((t={exports:{}}).exports,t),e=null),t.exports),s=(e,i,o,s)=>{if(i&&typeof i==`object`||typeof i==`function`)for(var c=r(i),l=0,u=c.length,d;l<u;l++)d=c[l],!a.call(e,d)&&d!==o&&t(e,d,{get:(e=>i[e]).bind(null,d),enumerable:!(s=n(i"
+    },
+    {
+      "country": "SG",
+      "city": "Singapore",
+      "asn": 18106,
+      "network": "ViewQwest",
+      "status": "finished",
+      "statusCode": 200,
+      "success": true,
+      "typeMatches": true,
+      "bodyMatches": true,
+      "contentType": "text/javascript; charset=utf-8",
+      "contentLength": null,
+      "remoteAddress": "218.64.194.16",
+      "totalMs": 8189,
+      "error": null,
+      "bodyPrefix": "const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=[\"assets/OrbitControls-BujbYgHy.js\",\"assets/three.module-DlqJz16g.js\",\"assets/RoundedBoxGeometry-_5Z05Ezi.js\"])))=>i.map(i=>d[i]);\nvar e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=Object.getOwnPropertyNames,i=Object.getPrototypeOf,a=Object.prototype.hasOwnProperty,o=(e,t)=>()=>(t||(e((t={exports:{}}).exports,t),e=null),t.exports),s=(e,i,o,s)=>{if(i&&typeof i==`object`||typeof i==`function`)for(var c=r(i),l=0,u=c.length,d;l<u;l++)d=c[l],!a.call(e,d)&&d!==o&&t(e,d,{get:(e=>i[e]).bind(null,d),enumerable:!(s=n(i"
+    }
+  ]
+}

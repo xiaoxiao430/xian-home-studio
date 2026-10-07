@@ -24,7 +24,10 @@
     "test:project": "node scripts/test-project.mjs",
     "test:server": "node scripts/test-server.mjs",
     "test:spatial": "node scripts/test-spatial.mjs",
-    "test:studio": "node scripts/test-studio-browser.mjs"
+    "test:studio": "node scripts/test-studio-browser.mjs",
+    "test:stairs": "node scripts/test-stairs.mjs",
+    "test:master": "node scripts/test-master-suite.mjs && node scripts/test-master-integration.mjs",
+    "test:stair-exports": "node scripts/test-stair-exports.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

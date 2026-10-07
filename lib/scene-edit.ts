@@ -8,7 +8,7 @@ const center=(p:Piece)=>[p.x+p.w/2,p.y+p.h/2] as const;
 /** A single-object copy starts a new independent object, never joins its source group. */
 export function cloneStandalonePiece(piece:Piece,newId=globalThis.crypto.randomUUID()):Piece{
  const copy={...clone(piece),id:newId,name:piece.name+'副本',x:piece.x+250,y:piece.y+250};
- delete copy.original;delete copy.groupId;
+ delete copy.original;delete copy.groupId;delete copy.stair;
  return copy;
 }
 

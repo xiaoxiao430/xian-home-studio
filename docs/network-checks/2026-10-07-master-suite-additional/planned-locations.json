@@ -1,0 +1,19 @@
+[
+  {
+    "country": "CN",
+    "city": "Nanjing",
+    "asn": 4134,
+    "limit": 1
+  },
+  {
+    "country": "CN",
+    "city": "Guilin",
+    "asn": 4134,
+    "limit": 1
+  },
+  {
+    "country": "SG",
+    "asn": 18106,
+    "limit": 1
+  }
+]

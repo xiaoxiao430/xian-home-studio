@@ -5,7 +5,7 @@ import type {Floor,Material} from '../lib/model';
 import {defaultMaterial} from '../lib/model';
 import {bbox} from '../lib/geometry';
 import type {Ring} from '../lib/measurement-model';
-import {elevationSvgContent,floorHeight,orientationLabels,projection,spatialVolumes,spatialWarnings,type Orientation} from '../lib/brief-export';
+import {elevationSvgContent,floorHeight,orientationLabels,projection,spatialFloorSlab,spatialVolumes,spatialWarnings,type Orientation} from '../lib/brief-export';
 import './spatial.css';
 
 export type SpatialViewsProps={floor:Floor;selected:string;onSelect:(id:string)=>void;mode:'elevation'|'3d'|'section';material?:Material;readOnly?:boolean};
@@ -18,28 +18,32 @@ function GeometryThree({floor,selected,onSelect,material}:{floor:Floor;selected:
   let disposed=false,cleanup=()=>{};setReady(false);setError('');
   if(floorId.current!==floor.id){cameraMemory.current=null;floorId.current=floor.id;}
   (async()=>{
-   const [T,{OrbitControls}]=await Promise.all([import('three'),import('three/addons/controls/OrbitControls.js')]);
+   const [T,{OrbitControls},{RoundedBoxGeometry}]=await Promise.all([import('three'),import('three/addons/controls/OrbitControls.js'),import('three/addons/geometries/RoundedBoxGeometry.js')]);
    if(disposed||!container.current)return;
-   const host=container.current,scene=new T.Scene();scene.background=new T.Color('#f3f1e9');
-   const renderer=new T.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=T.SRGBColorSpace;renderer.setSize(host.clientWidth,host.clientHeight);host.appendChild(renderer.domElement);
+   const host=container.current,scene=new T.Scene();scene.background=new T.Color('#eee8de');
+   const renderer=new T.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;renderer.setSize(host.clientWidth,host.clientHeight);host.appendChild(renderer.domElement);
    const b=bbox(floor.outline as Ring),cx=(b.x+b.w/2)/1000,cz=(b.y+b.h/2)/1000,size=Math.max(b.w,b.h)/1000;
    const camera=new T.PerspectiveCamera(42,Math.max(1,host.clientWidth)/Math.max(1,host.clientHeight),.02,150);
    const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=false;controls.maxPolarAngle=Math.PI*.49;controls.minDistance=.6;controls.maxDistance=Math.max(30,size*5);
    if(cameraMemory.current){camera.position.fromArray(cameraMemory.current.position);controls.target.fromArray(cameraMemory.current.target);}else{camera.position.set(cx+size*.85,size*.9,cz+size*.95);controls.target.set(cx,.7,cz);}controls.update();
-   scene.add(new T.HemisphereLight('#fff9e9','#7c8277',2.7));const light=new T.DirectionalLight('#ffffff',2);light.position.set(cx-4,12,cz+3);scene.add(light);
+   scene.add(new T.HemisphereLight('#fff6e6','#8a796a',2.2));const light=new T.DirectionalLight('#fff4e2',2.2);light.position.set(cx-4,12,cz+3);scene.add(light);const fill=new T.DirectionalLight('#eff4fa',.7);fill.position.set(cx+6,6,cz-4);scene.add(fill);
    const selectable:Object3D[]=[],materials:ThreeMaterial[]=[],geometries:BufferGeometry[]=[];
-   const addVolume=(polygon:Ring[],bottom:number,top:number,color:string,objectId:string,kind:string)=>{
+   const addVolume=(polygon:Ring[],bottom:number,top:number,color:string,objectId:string,kind:string,roundedMm=0)=>{
     const shape=new T.Shape();polygon[0].forEach((p,i)=>i?shape.lineTo(p[0]/1000,-p[1]/1000):shape.moveTo(p[0]/1000,-p[1]/1000));shape.closePath();
     for(const ring of polygon.slice(1)){const path=new T.Path();ring.forEach((p,i)=>i?path.lineTo(p[0]/1000,-p[1]/1000):path.moveTo(p[0]/1000,-p[1]/1000));path.closePath();shape.holes.push(path);}
-    const geometry=new T.ExtrudeGeometry(shape,{depth:(top-bottom)/1000,bevelEnabled:false,curveSegments:1});geometry.translate(0,0,bottom/1000);geometry.rotateX(-Math.PI/2);geometries.push(geometry);
-    const isWall=kind==='wall'||kind==='overhead',isWindow=kind==='opening',transparent=isWindow||isWall&&hideWalls;
-    const mat=new T.MeshStandardMaterial({color,roughness:.78,metalness:0,transparent,opacity:isWindow?.26:isWall&&hideWalls?.13:1,depthWrite:!transparent,side:T.DoubleSide});materials.push(mat);
+    let geometry:BufferGeometry;
+    const ring=polygon[0],a=ring[0],b=ring[1],d=ring[3],isRect=polygon.length===1&&(ring.length===4||ring.length===5)&&d&&Math.abs((b[0]-a[0])*(d[0]-a[0])+(b[1]-a[1])*(d[1]-a[1]))<1;
+    if(roundedMm&&isRect){const width=Math.hypot(b[0]-a[0],b[1]-a[1])/1000,depth=Math.hypot(d[0]-a[0],d[1]-a[1])/1000,height=(top-bottom)/1000;geometry=new RoundedBoxGeometry(width,height,depth,4,Math.min(roundedMm/1000,width*.2,depth*.2,height*.4));geometry.rotateY(-Math.atan2(b[1]-a[1],b[0]-a[0]));geometry.translate((b[0]+d[0])/2000,(bottom+top)/2000,(b[1]+d[1])/2000);}
+    else{geometry=new T.ExtrudeGeometry(shape,{depth:(top-bottom)/1000,bevelEnabled:false,curveSegments:1});geometry.translate(0,0,bottom/1000);geometry.rotateX(-Math.PI/2);}
+    geometries.push(geometry);
+    const isWall=kind==='wall'||kind==='overhead',isWindow=kind==='opening',isMirror=kind==='mirror',transparent=isWindow||isWall&&hideWalls;
+    const mat=new T.MeshStandardMaterial({color,roughness:isMirror?.18:roundedMm?.96:kind==='floor'?.48:.7,metalness:isMirror?.55:0,transparent,opacity:isWindow?.26:isWall&&hideWalls?.13:1,depthWrite:!transparent,side:T.DoubleSide});materials.push(mat);
     const mesh=new T.Mesh(geometry,mat);mesh.userData={objectId,kind,baseColor:color};scene.add(mesh);if(objectId&&kind!=='zone'&&!(isWall&&hideWalls))selectable.push(mesh);
-    const edges=new T.EdgesGeometry(geometry),lineMat=new T.LineBasicMaterial({color:objectId===selection.current?'#ba753e':isWall?'#9ba398':'#6d786b',transparent:true,opacity:isWall&&hideWalls?.32:.48});materials.push(lineMat);geometries.push(edges);const line=new T.LineSegments(edges,lineMat);line.userData={objectId,edge:true};scene.add(line);
+    if(!roundedMm||objectId===selection.current){const edges=new T.EdgesGeometry(geometry,40),lineMat=new T.LineBasicMaterial({color:objectId===selection.current?'#ba753e':isWall?'#a89c8f':'#85725f',transparent:true,opacity:isWall&&hideWalls?.32:.32});materials.push(lineMat);geometries.push(edges);const line=new T.LineSegments(edges,lineMat);line.userData={objectId,edge:true};scene.add(line);}
     if(objectId===selection.current){mat.emissive.set('#896231');mat.emissiveIntensity=.18;}
    };
-   addVolume([floor.outline as Ring],-55,0,material.floor,'','floor');
-   for(const v of spatialVolumes(floor,material))addVolume(v.polygon,v.bottom,v.top,v.color,v.objectId,v.kind);
+   for(const slab of spatialFloorSlab(floor))addVolume(slab,-55,0,material.floor,'','floor');
+   for(const v of spatialVolumes(floor,material))addVolume(v.polygon,v.bottom,v.top,v.color,v.objectId,v.kind,v.roundedMm);
    const render=()=>{if(!disposed)renderer.render(scene,camera);};
    const remember=()=>{cameraMemory.current={position:camera.position.toArray(),target:controls.target.toArray()};render();};controls.addEventListener('change',remember);
    const resize=new ResizeObserver(()=>{if(!host.clientWidth||!host.clientHeight)return;camera.aspect=host.clientWidth/host.clientHeight;camera.updateProjectionMatrix();renderer.setSize(host.clientWidth,host.clientHeight);render();});resize.observe(host);
@@ -51,7 +55,7 @@ function GeometryThree({floor,selected,onSelect,material}:{floor:Floor;selected:
   })().catch(e=>{if(!disposed)setError(e instanceof Error?e.message:'三维加载失败');});
   return ()=>{disposed=true;cleanup();};
  },[floor,material,hideWalls,reset,selected]);
- return <div className="spatial-three-wrap"><div className="spatial-three-tools"><label><input type="checkbox" checked={hideWalls} onChange={e=>setHideWalls(e.target.checked)}/> 墙体 / 顶部透视</label><button onClick={()=>{cameraMemory.current=null;setReset(v=>v+1);}}>恢复视角</button><span>拖动旋转 · 滚轮缩放 · 点选对象</span></div><div ref={container} className="spatial-three-canvas" role="img" aria-label="几何三维模型"/>{!ready&&!error&&<div className="spatial-loading">正在建立尺寸三维…</div>}{error&&<div className="spatial-error">三维未能加载：{error}。可继续使用平面、立面与剖面。</div>}<div className="spatial-three-caption">几何三维 · 来自当前布局与高度参数 · 楼梯仅表示占地体量</div></div>;
+ return <div className="spatial-three-wrap"><div className="spatial-three-tools"><label><input type="checkbox" checked={hideWalls} onChange={e=>setHideWalls(e.target.checked)}/> 墙体 / 顶部透视</label><button onClick={()=>{cameraMemory.current=null;setReset(v=>v+1);}}>恢复视角</button><span>拖动旋转 · 滚轮缩放 · 点选对象</span></div><div ref={container} className="spatial-three-canvas" role="img" aria-label="几何三维模型"/>{!ready&&!error&&<div className="spatial-loading">正在建立尺寸三维…</div>}{error&&<div className="spatial-error">三维未能加载：{error}。可继续使用平面、立面与剖面。</div>}<div className="spatial-three-caption">尺寸几何三维 · 楼梯踏步及二层留空为方案示意，楼板洞口与净高待复测 · 材质与软包为风格意向</div></div>;
 }
 
 export default function SpatialViews({floor,selected,onSelect,mode,material=defaultMaterial,readOnly=false}:SpatialViewsProps){

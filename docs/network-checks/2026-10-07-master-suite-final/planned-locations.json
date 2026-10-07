@@ -1,0 +1,35 @@
+[
+  {
+    "country": "CN",
+    "asn": 4134,
+    "limit": 1,
+    "city": "Nanjing"
+  },
+  {
+    "country": "CN",
+    "asn": 17621,
+    "limit": 1,
+    "city": "Shanghai"
+  },
+  {
+    "country": "CN",
+    "asn": 9808,
+    "limit": 1,
+    "city": "Shanghai"
+  },
+  {
+    "country": "SG",
+    "asn": 4773,
+    "limit": 1
+  },
+  {
+    "country": "SG",
+    "asn": 18106,
+    "limit": 1
+  },
+  {
+    "country": "SG",
+    "asn": 56300,
+    "limit": 1
+  }
+]

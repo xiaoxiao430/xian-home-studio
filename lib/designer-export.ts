@@ -1,16 +1,36 @@
 import {assetUrl} from './assets';
 import type {Floor} from './model';
-import {bbox,edges,type Scene,type Dimension} from './geometry';
+import {bbox,edges,toWorld,type Scene,type Dimension} from './geometry';
 import type {Point} from './measurement-model';
 import type {RouteResult} from './routes';
+import {getStairConfig,getStairPlanSvg,getStairVolumes} from './stairs';
 const text=(d:Dimension)=>d.status==='overlap'?'重叠':d.value===null?'待复核':`${d.estimated?'≈':''}${Math.round(d.value)} mm`;
 const escape=(s:string)=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]!));
 function download(data:Blob,name:string){const url=URL.createObjectURL(data),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),5000);}
 function badgePositions(ds:Pick<Dimension,'a'|'b'>[],unit:number){const boxes:{x:number;y:number}[]=[];return ds.map(d=>{const cx=(d.a[0]+d.b[0])/2,cy=(d.a[1]+d.b[1])/2;let x=cx,y=cy;for(let k=0;k<150;k++){const a=k*2.399963,r=Math.sqrt(k)*15*unit;x=cx+Math.cos(a)*r;y=cy+Math.sin(a)*r;if(!boxes.some(b=>Math.abs(b.x-x)<17*unit&&Math.abs(b.y-y)<15*unit))break;}boxes.push({x,y});return [x,y] as Point;});}
+/** Orthographic vectors from the same parametric solids used in the geometric 3D view. */
+export function stairExportGeometry(f:Floor){return f.pieces.filter(p=>p.type==='stair'&&p.visible!==false).map(piece=>{
+ const config=getStairConfig(piece,f.id),volumes=getStairVolumes(piece,f.id),center=(ring:Point[]):Point=>[ring.reduce((n,p)=>n+p[0],0)/ring.length,ring.reduce((n,p)=>n+p[1],0)/ring.length];
+ const left=volumes.filter(v=>v.partId.startsWith('tread-left-')),right=volumes.filter(v=>v.partId.startsWith('tread-right-')),landing=volumes.find(v=>v.partId==='turn-landing')!;
+ const a=center(left[0].polygon[0]),z=center(left.at(-1)!.polygon[0]),d=center(right.at(-1)!.polygon[0]),labelAt=center(landing.polygon[0]),length=Math.hypot(z[0]-a[0],z[1]-a[1]),axis:Point=[(z[0]-a[0])/length,(z[1]-a[1])/length];
+ const corner=(p:Point):Point=>{const t=(labelAt[0]-p[0])*axis[0]+(labelAt[1]-p[1])*axis[1];return [p[0]+axis[0]*t,p[1]+axis[1]*t];};
+ const arrow:Point[]=[a,corner(a),corner(d),d];if(config.level==='upper')arrow.reverse();
+ const end=arrow.at(-1)!,previous=arrow.at(-2)!,run=Math.hypot(end[0]-previous[0],end[1]-previous[1]),v:Point=[(end[0]-previous[0])/run,(end[1]-previous[1])/run];
+ const head:Point[]=[end,[end[0]-v[0]*135-v[1]*65,end[1]-v[1]*135+v[0]*65],[end[0]-v[0]*135+v[1]*65,end[1]-v[1]*135-v[0]*65]];
+ const polylines=volumes.filter(v=>!v.partId.startsWith('rail-post-')).flatMap(v=>v.polygon);
+ return {objectId:piece.id,polylines,arrow,head,labelAt,label:(config.level==='upper'?'下行':'上行')+' · U形示意'};
+ });}
+/** Mark only a bed, never a bedside cabinet or a furnishing merely named after its location. */
+export function bedHeadGeometry(f:Floor){return f.pieces.filter(p=>p.type==='furniture'&&p.visible!==false&&!p.cabinet&&!/床头柜|床边柜|床侧|床尾|床头板|床头灯/.test(p.name)&&(/(?:^|-)bed$/.test(p.id)||/^(?:床|主卧床|次卧床|客卧床|儿童床|双人床|单人床|高低床|上下床|双层床|婴儿床)(?:$|[\s·（(])/.test(p.name))).map(p=>{
+ const actual={...p,baseW:p.w,baseH:p.h};
+ return {objectId:p.id,a:toWorld(actual,[p.w*.18,0]),b:toWorld(actual,[p.w*.82,0]),labelAt:toWorld(actual,[p.w/2,Math.min(240,p.h*.14)])};
+ });}
 export function csvDrawing(f:Floor,ds:Dimension[],routes:RouteResult[],revision:number|string){const rows=[['楼层','方案版本','导出时间','名称','端点A X','端点A Y','端点B X','端点B Y','尺寸mm','口径','数值来源','备注','使用状态','几何状态','测量对象ID','端点A定义','端点B定义']];const time=new Date().toISOString();for(const d of ds)rows.push([f.name,String(revision),time,d.name,...d.a.map(String),...d.b.map(String),d.value===null?'':String(Math.round(d.value)),d.axis,d.estimated?'估算':d.category==='size'?'方案外尺寸':'方案计算',d.note,d.objectIds.map(id=>{const p=f.pieces.find(p=>p.id===id);return p?.usage?p.name+' '+JSON.stringify(p.usage):'';}).filter(Boolean).join('；'),({ok:'正常',overlap:'重叠',contact:'接触',invalid:'待复核'}[d.status]),d.objectIds.join(' / '),JSON.stringify(d.spec?.a||{kind:'point',point:d.a}),JSON.stringify(d.spec?.b||{kind:'point',point:d.b})]);for(const r of routes)rows.push([f.name,String(revision),time,r.name,'','','','',r.width===null?'':String(Math.round(r.width)),'通行包络',r.status,`${r.resolution} mm网格；${r.note}`,'',r.status,'',JSON.stringify(r.points[0]||null),JSON.stringify(r.points.at(-1)||null)]);return '\uFEFF'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');}
 export function svgDrawing(f:Floor,scene:Scene,ds:Dimension[],routes:RouteResult[],revision:number|string,font?:string){const b=bbox(f.outline as Point[]),legendW=6100,width=b.w+legendW+1600,height=Math.max(b.h+2000,(ds.length+scene.rooms.length+routes.length+7)*190),x0=b.x-700,y0=b.y-950;let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${x0} ${y0} ${width} ${height}" width="${Math.round(width/12)}" height="${Math.round(height/12)}"><style>${font?`@font-face{font-family:Microsoft YaHei;src:url(data:font/woff2;base64,${font})}`:''}text{font-family:Microsoft YaHei;fill:#2d4850;font-size:135px}</style><rect x="${x0}" y="${y0}" width="${width}" height="${height}" fill="white"/><text x="${b.x}" y="${b.y-530}" font-size="230">${escape(f.name)} · 尺寸方案 · V${revision}</text><text x="${b.x}" y="${b.y-290}">尺寸 mm / 面积 ㎡ · ${new Date().toLocaleString('zh-CN')} · 方案值，现场待复核</text>`;
  s+=`<polygon points="${f.outline.map(p=>p.join(',')).join(' ')}" fill="#f9faf7" stroke="#87969c" stroke-width="12"/>`;
- for(const p of scene.shapes.filter(p=>p.kind!=='opening'||f.pieces.find(q=>q.id===p.objectId)?.openingKind==='window'))s+=`<polygon data-object="${escape(p.objectId)}" points="${p.ring.map(q=>q.join(',')).join(' ')}" fill="${p.kind==='wall'?'#344b50':p.kind==='opening'?'#cbdde4':p.kind==='operation'?'#f5e9d2':'#dbcbae'}" stroke="#758982" stroke-width="10"/>`;
+ for(const p of scene.shapes.filter(p=>p.kind!=='stair'&&(p.kind!=='opening'||f.pieces.find(q=>q.id===p.objectId)?.openingKind==='window')))s+=`<polygon data-object="${escape(p.objectId)}" points="${p.ring.map(q=>q.join(',')).join(' ')}" fill="${p.kind==='wall'?'#344b50':p.kind==='opening'?'#cbdde4':p.kind==='operation'?'#f5e9d2':'#dbcbae'}" stroke="#758982" stroke-width="10"/>`;
+ for(const p of f.pieces.filter(p=>p.type==='stair'&&p.visible!==false))s+=`<g data-object="${escape(p.id)}" data-geometry="stair-study" transform="translate(${p.x} ${p.y}) rotate(${p.rotation||0} ${p.w/2} ${p.h/2})">${getStairPlanSvg(p,f.id)}</g>`;
+ for(const bed of bedHeadGeometry(f))s+=`<g data-object="${escape(bed.objectId)}" data-geometry="bed-head"><line x1="${bed.a[0]}" y1="${bed.a[1]}" x2="${bed.b[0]}" y2="${bed.b[1]}" stroke="#685440" stroke-width="32" stroke-linecap="round"/><text x="${bed.labelAt[0]}" y="${bed.labelAt[1]}" text-anchor="middle" dominant-baseline="central" style="font-size:120px;font-weight:600;fill:#574936">床头</text></g>`;
  for(const p of f.pieces.filter(p=>p.visible===false&&p.original)){const o=p.original!;s+=`<rect x="${o.x}" y="${o.y}" width="${o.w}" height="${o.h}" fill="none" stroke="#b77344" stroke-width="12" stroke-dasharray="60 35"/>`;}
  for(const r of routes)s+=`<polyline points="${r.points.map(p=>p.join(',')).join(' ')}" fill="none" stroke="#bc783d" stroke-width="20" stroke-dasharray="70 40"/>`;
  const badges=badgePositions([...ds,...routes.map(r=>({a:r.bottleneck||[0,0] as Point,b:r.bottleneck||[0,0] as Point}))],12);
@@ -19,16 +39,20 @@ export function svgDrawing(f:Floor,scene:Scene,ds:Dimension[],routes:RouteResult
  for(const [i,d] of ds.entries()){if(d.value!==null){s+=`<path d="M${d.a.join(' ')}L${d.b.join(' ')} M${(d.a[0]+d.b[0])/2} ${(d.a[1]+d.b[1])/2}L${badges[i].join(' ')}" fill="none" stroke="#287b99" stroke-width="10"/><circle cx="${badges[i][0]}" cy="${badges[i][1]}" r="83" fill="white" stroke="#287b99" stroke-width="9"/><text x="${badges[i][0]}" y="${badges[i][1]}" text-anchor="middle" dominant-baseline="central" font-size="100">${i+1}</text>`;}s+=`<text x="${lx}" y="${ly}">${escape(`${i+1}. ${d.name}：${text(d)}`)}</text>`;ly+=190;}
  for(const r of scene.rooms){s+=`<text x="${lx}" y="${ly}">${escape(`${r.name}：${r.polygon.length?r.area.toFixed(2)+'㎡ / 空地 '+r.freeArea.toFixed(2)+'㎡':r.status}`)}</text>`;ly+=190;}
  for(const [i,r] of routes.entries()){s+=`<text x="${lx}" y="${ly}">${escape(`B${i+1} ${r.name}：${r.width===null?r.note:'≈'+Math.round(r.width)+'mm，'+r.resolution+'mm网格'}`)}</text>`;ly+=190;}
+ if(f.pieces.some(p=>p.type==='stair'&&p.visible!==false)){s+=`<text x="${lx}" y="${ly+190}">楼梯踏步、平台与扶手均为形态示意。</text><text x="${lx}" y="${ly+380}">实际层高、洞口及净高待复测，不作为施工踏步图。</text>`;}
  return s+'</svg>';}
 export function dxfDrawing(f:Floor,scene:Scene,ds:Dimension[],routes:RouteResult[],revision:number|string){let handle=256;const id=()=> (++handle).toString(16).toUpperCase();const pair=(c:number,v:string|number)=>`${c}\n${v}\n`;const point=(p:Point,code=10)=>pair(code,p[0])+pair(code+10,-p[1])+pair(code+20,0);const entity=(kind:string,layer:string,extra:string)=>pair(0,kind)+pair(5,id())+pair(100,'AcDbEntity')+pair(8,layer)+extra;let entities='',blocks='';
  const line=(a:Point,b:Point,layer='DIMENSIONS')=>entity('LINE',layer,pair(100,'AcDbLine')+point(a)+point(b,11));
- const txt=(value:string,p:Point,height=100,layer='LABELS')=>entity('TEXT',layer,pair(100,'AcDbText')+point(p)+pair(40,height)+pair(1,value.replace(/[\r\n]/g,' '))+pair(7,'YAHEI')+pair(100,'AcDbText'));
+ const txt=(value:string,p:Point,height=100,layer='LABELS',centered=false)=>entity('TEXT',layer,pair(100,'AcDbText')+point(p)+pair(40,height)+pair(1,value.replace(/[\r\n]/g,' '))+pair(7,'YAHEI')+(centered?pair(72,1)+point(p,11):'')+pair(100,'AcDbText')+(centered?pair(73,2):''));
  const poly=(ring:Point[],layer:string,closed=true)=>entity('LWPOLYLINE',layer,pair(100,'AcDbPolyline')+pair(90,ring.length)+pair(70,closed?1:0)+ring.map(p=>pair(10,p[0])+pair(20,-p[1])).join(''));
  entities+=poly(f.outline as Point[],'BOUNDARY');
- for(const s of scene.shapes){const layer=s.kind==='wall'?'WALLS':s.kind==='opening'?'OPENINGS':s.kind==='operation'?'USE_RANGE':s.kind==='stair'?'STAIRS':'FURNITURE';entities+=poly(s.ring,layer);}
+ for(const s of scene.shapes){if(s.kind==='stair')continue;const layer=s.kind==='wall'?'WALLS':s.kind==='opening'?'OPENINGS':s.kind==='operation'?'USE_RANGE':'FURNITURE';entities+=poly(s.ring,layer);}
+ const stairs=stairExportGeometry(f);
+ for(const stair of stairs){for(const ring of stair.polylines)entities+=poly(ring,'STAIRS');entities+=poly(stair.arrow,'STAIRS',false)+poly(stair.head,'STAIRS')+txt(stair.label,stair.labelAt,100,'STAIRS',true);}
+ for(const bed of bedHeadGeometry(f))entities+=line(bed.a,bed.b,'FURNITURE')+txt('床头',bed.labelAt,120,'FURNITURE',true);
  for(const p of f.pieces.filter(p=>p.visible===false&&p.original)){const o=p.original!;entities+=poly([[o.x,o.y],[o.x+o.w,o.y],[o.x+o.w,o.y+o.h],[o.x,o.y+o.h]],'DEMOLITION');}
  for(const [i,r] of routes.entries()){if(r.points.length)entities+=poly(r.points,'ROUTES',false);if(r.bottleneck&&r.width!==null){entities+=entity('CIRCLE','ROUTES',pair(100,'AcDbCircle')+point(r.bottleneck)+pair(40,r.width/2));entities+=txt(`B${i+1} 通行估算 ${Math.round(r.width)} mm`,r.bottleneck,100,'ROUTES');}}
- const b=bbox(f.outline as Point[]);entities+=txt(`${f.name} / V${revision} / mm / ${new Date().toISOString()}`,[b.x,b.y-400],180);const blockNames:string[]=[];
+ const b=bbox(f.outline as Point[]);entities+=txt(`${f.name} / V${revision} / mm / ${new Date().toISOString()}`,[b.x,b.y-400],180);if(stairs.length)entities+=txt('楼梯踏步、平台及扶手仅为形态示意；层高、洞口、净高待复测，不作为施工踏步图',[b.x,b.y-170],100,'STAIRS');const blockNames:string[]=[];
  for(const [i,d] of ds.entries()){if(d.value===null){entities+=txt(`${i+1} ${d.name} 待复核`,[b.x+b.w+400,b.y+i*160]);continue;}const name='*D'+(i+1),center:Point=[(d.a[0]+d.b[0])/2,(d.a[1]+d.b[1])/2-120],label=`${i+1} ${text(d)}`;blockNames.push(name);blocks+=entity('BLOCK','DIMENSIONS',pair(100,'AcDbBlockBegin')+pair(2,name)+pair(70,1)+point([0,0])+pair(3,name)+pair(1,''))+line(d.a,d.b)+txt(label,center)+entity('ENDBLK','DIMENSIONS',pair(100,'AcDbBlockEnd'));
  entities+=entity('DIMENSION','DIMENSIONS',pair(100,'AcDbDimension')+pair(2,name)+point(d.b)+point(center,11)+pair(70,33)+pair(1,d.status==='overlap'?`${i+1} 重叠`:`${i+1} ${d.estimated?'≈':''}<> mm`)+pair(3,'HOME_MM')+pair(100,'AcDbAlignedDimension')+point(d.a,13)+point(d.b,14));entities+=txt(`${i+1}. ${d.name} = ${text(d)} (${d.estimated?'估算':'方案'})`,[b.x+b.w+400,b.y+i*160]);}
  const layers=['0','BOUNDARY','WALLS','OPENINGS','FURNITURE','STAIRS','DEMOLITION','USE_RANGE','DIMENSIONS','LABELS','ROUTES'];let tables=pair(0,'TABLE')+pair(2,'LTYPE')+pair(5,id())+pair(100,'AcDbSymbolTable')+pair(70,1)+pair(0,'LTYPE')+pair(5,id())+pair(100,'AcDbSymbolTableRecord')+pair(100,'AcDbLinetypeTableRecord')+pair(2,'CONTINUOUS')+pair(70,0)+pair(3,'Solid line')+pair(72,65)+pair(73,0)+pair(40,0)+pair(0,'ENDTAB');
@@ -43,7 +67,21 @@ async function fontData(){return fontBytes??=fetch(assetUrl('fonts/yahei.ttf')).
 export async function pdfDrawing(f:Floor,scene:Scene,ds:Dimension[],routes:RouteResult[],revision:number|string){const {PDFDocument,rgb}=await import('pdf-lib'),fontkit=(await import('@pdf-lib/fontkit')).default;const doc=await PDFDocument.create();doc.registerFontkit(fontkit);const font=await doc.embedFont(await fontData(),{subset:true});doc.setTitle(f.name+'尺寸方案');doc.setSubject('毫米尺寸方案；现场待复核');const W=1190.55,H=841.89,ink=rgb(.15,.26,.3),blue=rgb(.16,.45,.57),b=bbox(f.outline as Point[]),margin=42,scale=Math.min(72/25.4/50,(W-margin*2)/(b.w+1700),(H-145)/(b.h+1300));
  const page=doc.addPage([W,H]),xy=(p:Point):Point=>[margin+650*scale+(p[0]-b.x)*scale,H-100-(p[1]-b.y)*scale],label=(v:string,x:number,y:number,size=10)=>page.drawText(v,{x,y,size,font,color:ink});label(`${f.name} · 尺寸平面`,margin,H-40,19);label(`方案 V${revision} · ${new Date().toLocaleString('zh-CN')} · 单位 mm / ㎡ · 标注编号见后页`,margin,H-60,10);
  function line(a:Point,c:Point,color=blue,width=.55){const p=xy(a),q=xy(c);page.drawLine({start:{x:p[0],y:p[1]},end:{x:q[0],y:q[1]},thickness:width,color});}
- for(const s of scene.shapes){const color=s.kind==='wall'?rgb(.2,.28,.3):s.kind==='operation'?rgb(.69,.48,.22):rgb(.48,.55,.51);for(const [a,c] of edges(s.ring))line(a,c,color,s.kind==='wall'?1.2:.55);}
+ for(const s of scene.shapes){if(s.kind==='stair')continue;const color=s.kind==='wall'?rgb(.2,.28,.3):s.kind==='operation'?rgb(.69,.48,.22):rgb(.48,.55,.51);for(const [a,c] of edges(s.ring))line(a,c,color,s.kind==='wall'?1.2:.55);}
+ const stairs=stairExportGeometry(f);
+ for(const stair of stairs){
+  for(const ring of stair.polylines)for(const [a,c] of edges(ring))line(a,c,rgb(.48,.39,.3),.48);
+  for(let i=1;i<stair.arrow.length;i++)line(stair.arrow[i-1],stair.arrow[i],rgb(.28,.4,.35),1);
+  for(const [a,c] of edges(stair.head))line(a,c,rgb(.28,.4,.35),.85);
+  const center=xy(stair.labelAt),size=Math.max(6,Math.min(9,112*scale)),width=font.widthOfTextAtSize(stair.label,size);
+  page.drawRectangle({x:center[0]-width/2-3,y:center[1]-size*.45-2,width:width+6,height:size+4,color:rgb(1,1,1),opacity:.95});label(stair.label,center[0]-width/2,center[1]-size*.4,size);
+ }
+ for(const bed of bedHeadGeometry(f)){
+  line(bed.a,bed.b,rgb(.4,.32,.24),1.8);
+  const p=xy(bed.labelAt),size=Math.max(6,Math.min(9,120*scale)),width=font.widthOfTextAtSize('床头',size);
+  page.drawRectangle({x:p[0]-width/2-2,y:p[1]-size*.45-1,width:width+4,height:size+2,color:rgb(1,1,1),opacity:.92});label('床头',p[0]-width/2,p[1]-size*.4,size);
+ }
+ if(stairs.length)label('楼梯踏步、平台与扶手仅为形态示意；实际层高、洞口、净高待复测，不作为施工踏步图。',margin,H-77,8);
  for(const [a,c] of edges(f.outline as Point[]))line(a,c,ink,.7);
  const badges=badgePositions([...ds,...routes.map(r=>({a:r.bottleneck||[0,0] as Point,b:r.bottleneck||[0,0] as Point}))],1/scale);for(const [i,d] of ds.entries())if(d.value!==null){line(d.a,d.b);line([(d.a[0]+d.b[0])/2,(d.a[1]+d.b[1])/2],badges[i],blue,.3);const p=xy(badges[i]);page.drawCircle({x:p[0],y:p[1],size:6.5,color:rgb(1,1,1),borderColor:blue,borderWidth:.4});const value=String(i+1);label(value,p[0]-font.widthOfTextAtSize(value,6)/2,p[1]-2,6);}
  for(const r of routes)for(let i=1;i<r.points.length;i++)line(r.points[i-1],r.points[i],rgb(.73,.45,.23),1);

@@ -1,0 +1,63 @@
+{
+  "id": "2KQQsy0YpilCbfhrz00021H1T",
+  "resource": "homepage",
+  "name": "登录页",
+  "path": "/xian-home/",
+  "method": "GET",
+  "round": 1,
+  "createdAt": "2026-10-07T15:19:11.531Z",
+  "status": "finished",
+  "results": [
+    {
+      "country": "CN",
+      "city": "Nanjing",
+      "asn": 4134,
+      "network": "Chinanet Backbone",
+      "status": "finished",
+      "statusCode": 200,
+      "success": true,
+      "typeMatches": true,
+      "bodyMatches": true,
+      "contentType": "text/html; charset=utf-8",
+      "contentLength": null,
+      "remoteAddress": "218.64.194.16",
+      "totalMs": 6299,
+      "error": null,
+      "bodyPrefix": "<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"/><meta name=\"robots\" content=\"noindex,nofollow\"/><meta name=\"description\" content=\"西安的家，两层方案、实时尺寸、立面三维与设计交底。\"/><title>西安的家 · 空间研究室</title><link rel=\"icon\" href=\"/xian-home/favicon.svg\" type=\"image/svg+xml\"/>  <script type=\"module\" crossorigin src=\"/xian-home/assets/index-YPI5bBJs.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/xian-home/assets/index-BuQ2H4Qm.css\">\n</head><body><div id=\"root\"><p style=\"padding:40px;font-family:'Microsoft "
+    },
+    {
+      "country": "CN",
+      "city": "Guilin",
+      "asn": 4134,
+      "network": "China Telecom",
+      "status": "finished",
+      "statusCode": 200,
+      "success": true,
+      "typeMatches": true,
+      "bodyMatches": true,
+      "contentType": "text/html; charset=utf-8",
+      "contentLength": null,
+      "remoteAddress": "218.64.194.16",
+      "totalMs": 194,
+      "error": null,
+      "bodyPrefix": "<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"/><meta name=\"robots\" content=\"noindex,nofollow\"/><meta name=\"description\" content=\"西安的家，两层方案、实时尺寸、立面三维与设计交底。\"/><title>西安的家 · 空间研究室</title><link rel=\"icon\" href=\"/xian-home/favicon.svg\" type=\"image/svg+xml\"/>  <script type=\"module\" crossorigin src=\"/xian-home/assets/index-YPI5bBJs.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/xian-home/assets/index-BuQ2H4Qm.css\">\n</head><body><div id=\"root\"><p style=\"padding:40px;font-family:'Microsoft "
+    },
+    {
+      "country": "SG",
+      "city": "Singapore",
+      "asn": 18106,
+      "network": "ViewQwest",
+      "status": "finished",
+      "statusCode": 200,
+      "success": true,
+      "typeMatches": true,
+      "bodyMatches": true,
+      "contentType": "text/html; charset=utf-8",
+      "contentLength": null,
+      "remoteAddress": "218.64.194.16",
+      "totalMs": 3833,
+      "error": null,
+      "bodyPrefix": "<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\"/><meta name=\"robots\" content=\"noindex,nofollow\"/><meta name=\"description\" content=\"西安的家，两层方案、实时尺寸、立面三维与设计交底。\"/><title>西安的家 · 空间研究室</title><link rel=\"icon\" href=\"/xian-home/favicon.svg\" type=\"image/svg+xml\"/>  <script type=\"module\" crossorigin src=\"/xian-home/assets/index-YPI5bBJs.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/xian-home/assets/index-BuQ2H4Qm.css\">\n</head><body><div id=\"root\"><p style=\"padding:40px;font-family:'Microsoft "
+    }
+  ]
+}

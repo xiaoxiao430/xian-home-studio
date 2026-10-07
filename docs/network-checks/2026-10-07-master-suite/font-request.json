@@ -1,0 +1,22 @@
+{
+  "sentAt": "2026-10-07T15:16:20.923Z",
+  "request": {
+    "type": "http",
+    "target": "jmryqyx.cn",
+    "locations": "28fzndI3iFfUadCFv00021H1P",
+    "timeout": 30,
+    "measurementOptions": {
+      "protocol": "HTTPS",
+      "port": 443,
+      "request": {
+        "path": "/xian-home/fonts/yahei-full.woff2",
+        "method": "HEAD"
+      }
+    }
+  },
+  "status": 202,
+  "response": {
+    "id": "2EjTvXst8gruq8nEf00021H1Q",
+    "probesCount": 5
+  }
+}
