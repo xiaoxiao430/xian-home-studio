@@ -25,6 +25,6 @@ try{
  const source=spawnSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).stdout.trim();
  writeFileSync(join(dir,'deployment.json'),JSON.stringify({source,createdAt:new Date().toISOString(),revision:family.revision,exportedAt:family.exportedAt,assetCount:manifest.assetCount,readOnly:true},null,2));
  git(['config','user.name','Xian Home Studio']);git(['config','user.email','xiaoxiao430@users.noreply.github.com']);
- git(['add','--all']);git(['commit','-m',`Deploy family viewer V${family.revision} from ${source.slice(0,12)}`]);git(['push','origin','HEAD:gh-pages']);
+ git(['add','--all']);git(['commit','-m',`Deploy family viewer V${family.revision} from ${source.slice(0,12)}`]);git(['-c','http.version=HTTP/1.1','-c','http.postBuffer=524288000','push','origin','HEAD:gh-pages']);
  console.log(JSON.stringify({branch:'gh-pages',source,revision:family.revision,exportedAt:family.exportedAt,commit:git(['rev-parse','HEAD']).stdout.trim(),url:'https://xiaoxiao430.github.io/xian-home-studio/'}));
 }finally{rmSync(dir,{recursive:true,force:true});}
