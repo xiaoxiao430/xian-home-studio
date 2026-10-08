@@ -16,6 +16,8 @@
     "prebuild": "node scripts/build-measure-worker.mjs",
     "test:measurements": "node scripts/test-measurements.mjs",
     "build:pages": "node scripts/build-measure-worker.mjs && vite build --config vite.pages.config.ts && node scripts/prerender-pages.mjs",
+    "build:family": "npm run build:pages && node scripts/build-family-export.mjs",
+    "test:family-export": "node scripts/test-family-export.mjs",
     "preview:pages": "vite preview --config vite.pages.config.ts --host 127.0.0.1",
     "dev:pages": "node scripts/build-measure-worker.mjs && vite --config vite.pages.config.ts --host 127.0.0.1",
     "deploy:pages": "node scripts/deploy-pages.mjs",

@@ -1,6 +1,8 @@
 # 西安的家 · 两层空间工作台
 
-正式入口：[jmryqyx.cn/xian-home](https://jmryqyx.cn/xian-home/)，需要访问口令。GitHub 保存程序代码；两层方案、私人照片、原图和分享版本存放在独立服务的数据目录。
+家人免登录查看：[Mac Studio 正式入口](https://jmryqyx.cn/xian-home/) · [GitHub 独立查看入口](https://xiaoxiao430.github.io/xian-home-studio/)。两层布局、参考资料与效果图均可只读浏览。正式入口读取当前方案；GitHub 显示明确标注版本及发布时间的独立副本。
+
+[管理入口](https://jmryqyx.cn/xian-home/?admin=1) 仍验证管理口令。设计师固定快照继续验证各自口令，草稿修改不影响旧分享。数据库、会话、口令、备份与历史快照不会发布到 GitHub；经授权公开的当前方案及关联图片发布在 `gh-pages`。
 
 [地区访问实测](docs/reachability-2026-10-07.md) · [本次升级与验收范围](docs/workbench-release-2026-10-07.md) · [服务与备份说明](server/README.md)
 
@@ -17,7 +19,7 @@
 
 ## 旧版迁移
 
-[GitHub Pages 旧入口](https://xiaoxiao430.github.io/xian-home-studio/) 保留本机数据导出和旧编辑器。使用原来编辑过的浏览器，导出两层布局和 IndexedDB 全部参考图片，再在新版“分享与备份”导入。导入另存为方案，现有 A/B 保留。
+[GitHub Pages 旧版迁移](https://xiaoxiao430.github.io/xian-home-studio/?legacy=1) 保留本机数据导出和旧编辑器。使用原来编辑过的浏览器，导出两层布局和 IndexedDB 全部参考图片，再在新版“分享与备份”导入。导入另存为方案，现有 A/B 保留。
 
 跨域网页不能直接读取旧浏览器数据。迁移不会清空旧存储；v2/v3 JSON 也可导入。完整备份另含所有方案、图片、测量、路线、问题、说明及固定版本。
 
@@ -39,7 +41,7 @@ npm run test:server
 
 `npm run test:studio` 仅接受本机测试服务，**会修改测试项目**。通过环境变量指定私有测试凭据及 Playwright/Chrome 路径；不要指向正式项目。浏览器测试包含编辑、保存、冲突、查看权限、导出及移动端模拟。
 
-正式构建在 `dist-studio`，基路径 `/xian-home/`；服务器只监听 `127.0.0.1:18892`，由同域 Nginx 转发。原图、照片、数据库、会话、口令和备份都不放入构建或仓库。每日自动完整备份保留 7 份，详见服务说明。
+正式构建在 `dist-studio`，基路径 `/xian-home/`；服务器只监听 `127.0.0.1:18892`，由同域 Nginx 转发。数据库、会话、口令和备份不放入构建或仓库；授权公开的当前方案附件仅进入独立的 Pages 发布分支，不进入源码分支。每日自动完整备份保留 7 份，详见服务说明。
 
 ## 当前对话修改项目
 
@@ -52,14 +54,18 @@ XIAN_URL=https://jmryqyx.cn/xian-home XIAN_CREDENTIALS=/private/credentials.json
 
 凭据从私人文件读取，不写入前端。此工作台不新增内置聊天框，也不把几何三维称为写实效果图。
 
-## 旧入口发布
+## 家人查看版发布
 
 ```sh
-npm run build:pages
+FAMILY_SOURCE_URL=https://jmryqyx.cn/xian-home/ FAMILY_CREDENTIALS_FILE=/private/credentials.json npm run build:family
 npm run preview:pages
 npm run deploy:pages
 ```
 
-Pages 的 `gh-pages` 分支只存迁移入口及此前已公开的旧版程序。`deployment.json` 记录源码版本。独立服务的构建、Node 服务和 SQLite 与 Pages 分离，旧 Sites 源码作为兼容历史保留，新工作台不向其发请求。
+Pages 的 `gh-pages` 分支包含只读程序、当前方案以及关联附件，直接加载本地发布文件，无需访问 Mac Studio API。完整性校验及版本复核通过后才发布；`deployment.json` 记录源码版本、方案版本、发布时间。`build:pages` 单独运行仅编译界面，发布前还必须成功导出 family 数据。`?legacy=1` 保留旧版浏览器数据迁移。
+
+Mac Studio 通过 `XIAN_PUBLIC_VIEW=true` 开启匿名只读，管理 API 保持认证。关闭该环境变量可恢复原口令模式。原 Sites 源码保留兼容历史，两个正式入口均不依赖 Sites。
+
+验证：`node scripts/test-public-server.mjs`、`npm run test:family-export`；只读浏览器验证使用 `node scripts/test-family-browser.mjs --url <入口>`，GitHub 另加 `--static`，断开全部 API 验证独立运行。手机测试包括微信 UA 模拟，不等同于实体微信客户端实测。
 
 正式文字使用微软雅黑；PDF 嵌入字体，DXF 指定相应文字样式。项目中的字体用于本项目网页及文档，不授予独立字体再分发许可。

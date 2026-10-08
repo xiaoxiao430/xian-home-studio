@@ -6,5 +6,6 @@ export default defineConfig({
  base:process.env.PAGES_BASE||'/xian-home-studio/',
  publicDir:fileURLToPath(new URL('./public',import.meta.url)),
  plugins:[react()],
+ define:{'import.meta.env.VITE_FAMILY_STATIC':JSON.stringify('true')},
  build:{outDir:fileURLToPath(new URL('./dist-pages',import.meta.url)),emptyOutDir:true},
 });

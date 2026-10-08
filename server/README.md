@@ -22,6 +22,7 @@ node server/index.mjs
 | `XIAN_PORT` | `18892`，仅监听 127.0.0.1 |
 | `XIAN_BASE_PATH` | `/xian-home` |
 | `XIAN_PUBLIC_ORIGIN` | 公网 HTTPS 入口的完整 origin；反向代理上线时必须配置以核对修改请求来源 |
+| `XIAN_PUBLIC_VIEW` | 默认 `false`；显式设为 `true` 后，家庭入口免口令读取当前项目与其附件，修改及备份仍需管理登录 |
 | `XIAN_COOKIE_SECURE` | 默认为 `true`；仅本机 HTTP 调试可设置 `false` |
 | `XIAN_MAX_PROJECT_BYTES` | 默认 340 MiB；当前项目及全部固定版本所引用原件的总量限制 |
 | `XIAN_MAX_RESTORE_BYTES` | 默认 480 MiB；完整 JSON 恢复包大小限制 |
@@ -35,20 +36,22 @@ node server/index.mjs
 
 API 前缀为 `XIAN_BASE_PATH + /api`。请求与响应均为 JSON，除附件上传 / 下载外。修改请求需使用同源请求；登录使用 HttpOnly、SameSite=Strict 会话 Cookie。
 
-- `GET /session` → `{role:'owner'|'viewer'|null,shareId?}`。
+- `GET /session` → `{role:'owner'|'viewer'|null,shareId?,publicView?}`。开启家庭入口且无有效会话时，返回 `{role:'viewer',publicView:true}`，无需 Cookie。
 - `POST /session`，`{password,shareId?}`；不传 `shareId` 为管理登录，传入为独立快照口令。
 - `DELETE /session` 退出。
-- `GET /project` → `{project,revision,role,shareId?,label?}`。查看者得到固定快照。
+- `GET /project` → `{project,revision,role,shareId?,label?,publicView?}`。家庭查看者得到最新当前项目及实际 revision，附 `publicView:true`；持有原快照会话的查看者仍得到固定快照。
 - `PUT /project`，`{project,baseRevision,operationId}` → 更新包络。
 - `POST /operations`，`{operation,baseRevision,operationId}` → 通过统一 `applyOperation` 更新。
 - `POST /snapshots`，`{label,baseRevision}` → `{id,label,revision,createdAt,url,password}`。独立查看口令只在创建时返回。
 - `GET /snapshots` → `{items:[{id,label,revision,createdAt,url}]}`，仅管理者可读，不返回口令或哈希。
 - `POST /assets` 原始二进制，`Content-Type` 为实际类型；`x-file-name` 为 URI 编码文件名，`x-asset-meta` 为 URI 编码 JSON 元数据。返回 `{asset,project,revision,role}`，自动将附件加入项目并增加 revision。
-- `GET /assets/:id`、`GET /assets/:id/thumbnail` 受会话与快照附件白名单保护。thumbnail 使用 macOS sips 生成最长边 1200 像素的 JPEG（包含 HEIC 转 JPEG），保存于私有缩略图目录。转换失败时才返回原件，并附 `X-Preview-Fallback: original`；非图片不提供该预览路径。
+- `GET /assets/:id`、`GET /assets/:id/thumbnail`（也支持 `HEAD`）受当前项目或快照附件白名单保护。家庭入口仅能读取当前项目引用的附件，不能读取仅历史快照引用或已移除的附件。thumbnail 使用 macOS sips 生成最长边 1200 像素的 JPEG（包含 HEIC 转 JPEG），保存于私有缩略图目录。转换失败时才返回原件，并附 `X-Preview-Fallback: original`；非图片不提供该预览路径。
 - `GET /backup` → `{format:'xian-home-backup',version:1,exportedAt,revision,project,snapshots,files:[{id,name,mime,size,sha256,data}]}`，`data` 为 base64。`snapshots` 含固定版本、原分享 ID、口令哈希及附件白名单，不包含会话或管理口令；files 同时包含固定版本仍引用的历史原件。
 - `POST /restore`，`{backup,baseRevision,operationId}`，全量校验后恢复；先留存恢复前的完整备份，旧快照的附件保留。可在新服务器恢复固定版本及原分享口令；已有相同 ID 的固定版本若内容不同则拒绝恢复，避免旧链接改变含义。
 - `GET /backups` 返回自动备份状态与清单；`GET /backups/YYYY-MM-DD` 下载指定每日备份；`POST /backups`（JSON `{}`）立即更新当天备份，均仅管理者可用。
 - `GET /health` 只返回服务状态与接口版本。
+
+固定分享页面须在 `/session`、`/project` 和附件读取请求中一致传入 `?share=<id>`。指定分享 ID 时必须持有该快照的有效查看会话或管理会话；未登录、失效或不匹配的会话不会回退到公共当前项目。管理者通过带 share 的读取请求也只读取该固定快照。开启家庭入口不会取消管理员口令，不创建可写的匿名会话，也不会开放快照列表、备份、恢复或附件上传。关闭 `XIAN_PUBLIC_VIEW` 并重启即可恢复原来的口令访问要求。
 
 `operationId` 使用唯一随机字符串（UUID 可用）。同一 ID 重复提交同一请求返回原结果并附 `replayed:true`；使用同一 ID 提交不同内容返回 409。版本冲突返回 409 及当前 `revision`，调用方应重新读取并合并，不能盲目覆盖。
 
@@ -72,6 +75,7 @@ node server/restore-backup.mjs /absolute/path/to/backup.json
 
 ```sh
 node scripts/test-server.mjs
+node scripts/test-public-server.mjs
 ```
 
 设置 `XIAN_TEST_REAL_ASSETS_DIR` 为原资料文件夹，可追加全部真实资料上传、缩略图及恢复验证；可选 `XIAN_TEST_BACKUP_OUTPUT` 将通过校验的完整备份保存到指定私人路径（600 权限）。
